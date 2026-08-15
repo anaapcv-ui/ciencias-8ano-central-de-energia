@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Guiada — Central de Energia | Ciências 8º ano</title>
+<style>
+:root{
+  --bg:#171c20; --panel:#212930; --panel2:#2c353d; --line:#3b4650;
+  --gold:#f4c11f;        /* amarelo-sinal */
+  --teal:#37b3c4;        /* medidor (azul-aço) */
+  --lime:#a8d420;        /* verde-limão */
+  --red:#e0533f; --green:#5cb87f; --green-dark:#2f7a4f;
+  --text:#eef2f4; --muted:#a2b1bb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:
+    linear-gradient(rgba(168,212,32,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(168,212,32,.05) 1px,transparent 1px);
+  background-size:42px 42px;
+  color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  font-size:17px;line-height:1.75;padding-bottom:80px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px}
+header.top{
+  background:linear-gradient(135deg,#1b2a12,#5f7d1a);
+  border-bottom:6px solid var(--lime);padding:34px 18px 30px;text-align:center;
+  position:relative;overflow:hidden;
+}
+header.top::after{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.10) 2px,transparent 2px);
+  background-size:26px 26px;opacity:.5;
+}
+header.top .inner{position:relative;z-index:2}
+.tag{
+  display:inline-block;background:#12210a;color:#d6f27f;border:2px solid var(--lime);
+  padding:5px 14px;border-radius:4px;font-size:13px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;
+}
+header.top h1{font-size:32px;line-height:1.2;letter-spacing:1px;text-transform:uppercase;text-shadow:2px 3px 0 rgba(0,0,0,.35)}
+header.top p{margin-top:10px;font-size:16px;color:#f2ffe0}
+.navbar{
+  background:var(--panel);border-bottom:3px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:12px;
+  position:sticky;top:0;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.35)
+}
+.navbar a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px;padding:8px 14px;border-radius:6px;border:2px solid transparent}
+.navbar a:hover{color:var(--text);background:var(--panel2)}
+.navbar a.on{background:var(--lime);color:#1a2405;border-color:#d6f27f}
+.savebar{background:var(--panel2);border:2px solid var(--line);border-radius:10px;margin:20px auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.savebar .st{font-size:13px;color:var(--muted)}
+.savebar .st b{color:var(--teal)}
+.btn{border:none;border-radius:7px;padding:9px 15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s,filter .12s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-gold{background:var(--gold);color:#2a1c05}
+.btn-teal{background:var(--teal);color:#052024}
+.btn-red{background:var(--red);color:#fff}
+.btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--line)}
+.progress-shell{background:var(--panel);border:2px solid var(--line);border-radius:999px;height:20px;overflow:hidden;margin:8px 0 4px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--lime),var(--teal));transition:width .4s}
+.progress-lbl{font-size:13px;color:var(--muted);text-align:center;margin-bottom:22px}
+.intro{background:var(--panel);border:2px solid var(--line);border-left:8px solid var(--gold);border-radius:10px;padding:20px;margin-bottom:26px}
+.intro h2{font-size:20px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.intro ul{margin:10px 0 0 22px}
+.intro li{margin-bottom:5px}
+.bloco{background:var(--panel);border:2px solid var(--line);border-radius:12px;margin-bottom:22px;overflow:hidden;position:relative}
+.bloco.locked{opacity:.45;pointer-events:none}
+.bloco.done{border-color:var(--green)}
+.bloco h3{background:var(--panel2);padding:16px 18px;font-size:19px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--line)}
+.bloco.done h3{background:linear-gradient(90deg,#1d4030,var(--panel2))}
+.num{background:var(--gold);color:#2a1c05;width:36px;height:36px;flex:0 0 36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;transform:rotate(-4deg)}
+.bloco.done .num{background:var(--green);color:#0d1f16}
+.body{padding:20px 22px}
+.body p{margin-bottom:14px}
+.body p b{color:var(--gold)}
+.body .hl{color:var(--teal);font-weight:700}
+.lock-msg{padding:16px 22px;color:var(--muted);font-size:14px;font-style:italic}
+.pare{background:#2a2408;border:2px dashed var(--gold);border-radius:10px;padding:16px 18px;margin-top:18px}
+.pare .ttl{color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:14px;margin-bottom:12px}
+.q{margin-bottom:14px}
+.q label{display:block;font-weight:700;margin-bottom:6px;font-size:15px}
+.q textarea{width:100%;min-height:70px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:inherit;font-size:15px;resize:vertical}
+.q textarea:focus{outline:none;border-color:var(--teal)}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+.modelo{display:none;background:#0f2b20;border:2px solid var(--green);border-radius:10px;padding:16px 18px;margin-top:16px}
+.modelo.show{display:block}
+.modelo h4{color:#a6ecc6;font-size:15px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.modelo .item{margin-bottom:12px;font-size:15px}
+.modelo .item b{color:var(--teal)}
+.auto{margin-top:14px;border-top:1px solid var(--green-dark);padding-top:12px}
+.auto .lbl{font-size:13px;color:#a6ecc6;margin-bottom:8px}
+.auto button{margin-right:8px;margin-bottom:6px}
+.auto .sel{outline:3px solid #fff;outline-offset:2px}
+.calc{background:#101d22;border:2px solid var(--teal);border-radius:10px;padding:14px 16px;margin-top:16px;font-size:15px}
+.calc .ct{color:var(--teal);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:13px;margin-bottom:8px}
+.calc code{background:#06282e;color:#bff0f6;padding:2px 7px;border-radius:5px;font-size:14px;font-weight:700}
+.peg-sec{margin-top:40px}
+.peg-sec h2{background:var(--red);color:#fff;padding:14px 18px;border-radius:10px 10px 0 0;font-size:20px;text-transform:uppercase;letter-spacing:1px}
+.peg-grid{background:var(--panel);border:2px solid var(--red);border-top:none;border-radius:0 0 10px 10px;padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.peg{background:var(--panel2);border:2px solid var(--line);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .2s}
+.peg:hover{border-color:var(--red)}
+.peg .t{font-weight:800;color:#f2b4ae;font-size:14px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.peg .a{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:#c8f0e2;font-size:15px}
+.peg.open .a{display:block}
+.peg .tip{font-size:12px;color:var(--muted);margin-top:8px}
+.footnav{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+.footnav a{background:var(--gold);color:#2a1c05;text-decoration:none;font-weight:800;padding:14px 24px;border-radius:9px;font-size:16px;border:3px solid #b8901a}
+.footnav a.alt{background:var(--panel2);color:var(--text);border-color:var(--line)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(6,10,12,.82);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:3px solid var(--gold);border-radius:12px;max-width:440px;width:100%;padding:24px}
+.modal h3{color:var(--gold);margin-bottom:12px;font-size:20px}
+.modal p{margin-bottom:18px;font-size:15px}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.modal textarea{width:100%;height:110px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:monospace;font-size:12px;margin-bottom:14px}
+@media(max-width:600px){header.top h1{font-size:24px}body{font-size:16px}.body{padding:16px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="tag">⚡ Central de Energia · Sala de Leitura</div>
+    <h1>📖 Leitura Guiada</h1>
+    <p>Ciências · 8º ano · Eletricidade (corrente, circuitos, potência e cuidados)</p>
+    <p style="font-size:14px;opacity:.9">Prova: 25/08/2026 · Colégio São José</p>
+  </div>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">🏠 Início</a>
+  <a href="leitura-guiada.html" class="on">📖 Leitura Guiada</a>
+  <a href="quiz.html">🎯 Quiz</a>
+  <a href="resumo.html">🗺️ Resumo</a>
+  <a href="simulado.html">📝 Simulado</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="savebar">
+    <div class="st">💾 Seu progresso é salvo sozinho. <b id="saveInfo">Nada salvo ainda.</b></div>
+    <div>
+      <button class="btn btn-teal" onclick="exportar()">📥 Exportar</button>
+      <button class="btn btn-gold" onclick="abrirImport()">📤 Importar</button>
+      <button class="btn btn-red" onclick="abrirZerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <div class="progress-shell"><div class="progress-fill" id="pbar"></div></div>
+  <div class="progress-lbl" id="plbl">Setores ligados: 0 de 8</div>
+
+  <div class="intro">
+    <h2>🔧 Como operar a Central</h2>
+    <p>Você é o <b>operador(a)</b> desta Central de Energia. Ela tem <b>8 setores</b>. Cada setor traz um texto curto e, no fim, um painel <b>"Pare e pense"</b> com 3 perguntas. Você responde com <b>suas palavras</b> — não precisa ficar bonito, precisa ser <b>seu</b>.</p>
+    <ul>
+      <li>Responda as 3 perguntas (pelo menos umas poucas palavras em cada).</li>
+      <li>Clique em <b>Conferir e ligar o próximo setor</b> para abrir a resposta-modelo.</li>
+      <li>Compare a sua resposta com a modelo e marque como você se saiu.</li>
+      <li>Só então o próximo setor liga. No fim tem a <b>Mesa de Pegadinhas</b>.</li>
+    </ul>
+  </div>
+
+  <div id="blocos"></div>
+
+  <div class="peg-sec">
+    <h2>⚠️ Mesa de Pegadinhas — as 10 armadilhas da prova</h2>
+    <div class="peg-grid" id="pegs"></div>
+  </div>
+
+  <div class="footnav">
+    <a href="quiz.html">Próximo material: 🎯 Quiz →</a>
+    <a href="index.html" class="alt">🏠 Voltar ao início</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="mZerar"><div class="modal">
+  <h3>Zerar tudo?</h3><p>Isso apaga todas as suas respostas desta Leitura Guiada. Não dá para desfazer.</p>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mZerar')">Cancelar</button>
+  <button class="btn btn-red" onclick="zerarTudo()">Sim, apagar</button></div>
+</div></div>
+<div class="modal-bg" id="mImport"><div class="modal">
+  <h3>Importar respostas</h3><p>Cole abaixo o texto que você exportou antes:</p>
+  <textarea id="impTxt" placeholder="Cole aqui..."></textarea>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mImport')">Cancelar</button>
+  <button class="btn btn-teal" onclick="importar()">Importar</button></div>
+</div></div>
+<div class="modal-bg" id="mAviso"><div class="modal">
+  <h3 id="avTtl">Aviso</h3><p id="avTxt"></p>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mAviso')">Ok</button></div>
+</div></div>
+<div class="modal-bg" id="mExport"><div class="modal">
+  <h3>Exportar respostas</h3><p>Copie todo o texto abaixo e guarde num bloco de notas:</p>
+  <textarea id="expTxt" readonly></textarea>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mExport')">Fechar</button></div>
+</div></div>
+
+<script>
+var MEM={};
+var LS={
+  get:function(k){try{return localStorage.getItem(k);}catch(e){return MEM[k]||null;}},
+  set:function(k,v){try{localStorage.setItem(k,v);}catch(e){MEM[k]=v;}},
+  del:function(k){try{localStorage.removeItem(k);}catch(e){delete MEM[k];}}
+};
+var CHAVE='cie8sj_elet_leitura_v1';
+var estado={resp:{},feito:{},auto:{},quando:null};
+
+function carregar(){
+  var raw=LS.get(CHAVE); if(!raw)return;
+  try{var d=JSON.parse(raw);
+    estado.resp=d.resp||{};estado.feito=d.feito||{};estado.auto=d.auto||{};estado.quando=d.quando||null;
+  }catch(e){}
+}
+function salvar(){estado.quando=new Date().toISOString();LS.set(CHAVE,JSON.stringify(estado));mostrarSalvo();}
+function mostrarSalvo(){
+  var el=document.getElementById('saveInfo');
+  if(!estado.quando){el.textContent='Nada salvo ainda.';return;}
+  var d=new Date(estado.quando),p=function(n){return n<10?'0'+n:''+n;};
+  el.textContent='Último salvamento: '+p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' às '+p(d.getHours())+':'+p(d.getMinutes());
+}
+
+var BLOCOS=[
+{
+ t:'Corrente elétrica: os elétrons em fila',
+ p:[
+  'Dentro de qualquer material existem <b>elétrons</b>, pequenas partículas com carga elétrica. No dia a dia eles ficam se mexendo de um jeito <b>desorganizado e caótico</b>, como uma multidão andando para todo lado numa praça cheia. Assim, sozinhos, eles não fazem nada de útil.',
+  'A mágica acontece quando montamos um <b>sistema fechado</b>: ligamos um <b>material bom condutor</b> (como um fio metálico) a uma <b>fonte de energia</b> (como uma pilha ou bateria). Aí os elétrons param de andar à toa e passam a se mover de forma <b>ordenada e contínua</b>, todos na mesma direção, como uma fila de pessoas andando num corredor. Esse <span class="hl">movimento ordenado de elétrons é a corrente elétrica</span>.',
+  'Para existir corrente, então, precisamos de três coisas: um <b>aparelho</b> (a lâmpada, o ventilador...), uma <b>fonte</b> de energia (pilha, bateria ou a tomada) e <b>fios de ligação</b>. Quando você aperta o interruptor, você <b>fecha o circuito</b>: a fonte dá a "força" para empurrar os elétrons pelo fio, e o aparelho funciona.',
+  'No <b>Sistema Internacional de Unidades (SI)</b>, a corrente elétrica é medida em <b>ampère</b>, cujo símbolo é a letra <b>A</b>. Guarde bem: <span class="hl">ampère (A) mede a corrente</span> — é a primeira medida do nosso painel de instrumentos.'
+ ],
+ q:['Com suas palavras, o que é corrente elétrica?',
+    'Quais são as três coisas que um circuito precisa ter para a corrente existir?',
+    'Em que unidade a corrente elétrica é medida e qual é o símbolo dela?'],
+ m:['É o movimento ordenado dos elétrons (partículas com carga elétrica) que passam a se mover todos na mesma direção quando ligamos um fio condutor a uma fonte de energia.',
+    'Um aparelho (que vai funcionar), uma fonte de energia (pilha, bateria ou tomada) e fios de ligação que conectam tudo.',
+    'É medida em ampère, e o símbolo é a letra A.']
+},
+{
+ t:'Condutores, isolantes, semicondutores e supercondutores',
+ p:[
+  'Nem todos os materiais deixam a corrente passar do mesmo jeito. Os <b>bons condutores</b> recebem esse nome porque neles as cargas elétricas se movem com <b>grande liberdade</b>. São exemplos: os <b>metais</b>, a <b>água do mar</b>, o <b>corpo humano</b> e a <b>grafita</b> (aquela do lápis). Por isso o corpo conduzir eletricidade é justamente o que torna o choque perigoso.',
+  'Os <b>maus condutores</b>, também chamados de <b>isolantes</b>, são o oposto: neles as cargas <span class="hl">não se movem com facilidade</span>. Exemplos: <b>borracha, algodão, vidro, madeira seca, plástico</b> e a <b>água destilada</b>. Repare numa pegadinha clássica: <b>água do mar conduz, mas água destilada (pura) é má condutora</b> — quem conduz na água são os sais dissolvidos nela.',
+  'Existe um meio-termo: os <b>semicondutores</b> são cristais de <b>condutividade intermediária</b>, entre os bons e os maus condutores. Eles têm <b>larga aplicação na indústria de informática</b> — são a base dos <b>microprocessadores</b> (os "cérebros" dos computadores e celulares).',
+  'Por fim, os <b>supercondutores</b> são materiais que conduzem <b>ainda melhor que o cobre e a prata</b>, praticamente <b>sem perder energia</b>. Para isso, precisam estar a <b>temperaturas muito baixas</b> (perto de −273,15 °C). Eles aparecem em tecnologias como os <b>trens de levitação magnética</b> e os aparelhos de <b>ressonância magnética</b>.'
+ ],
+ q:['Cite dois exemplos de bons condutores e dois de isolantes.',
+    'Por que a água do mar conduz eletricidade, mas a água destilada não?',
+    'Para que servem os semicondutores no dia a dia?'],
+ m:['Bons condutores: metais, água do mar, corpo humano ou grafita (bastam dois). Isolantes: borracha, algodão, vidro, madeira seca, plástico ou água destilada (bastam dois).',
+    'Porque a água do mar tem sais dissolvidos, que permitem o movimento das cargas. A água destilada é pura, sem esses sais, por isso é má condutora.',
+    'São a base dos microprocessadores usados em computadores e celulares — têm larga aplicação na indústria de informática.']
+},
+{
+ t:'Circuitos elétricos: série, paralelo, aberto e fechado',
+ p:[
+  'Um <b>circuito elétrico</b> é uma associação de elementos que pode ser percorrida pela corrente. Ele tem sempre três elementos: um <b>aparelho</b> (como uma lâmpada ou geladeira), uma <b>fonte</b> (a rede da tomada, uma bateria ou pilha) e os <b>fios de ligação</b> (fios de metal que conectam tudo).',
+  'Os circuitos podem ser montados de duas formas. No <b>circuito em série</b>, os elementos ficam ligados <b>em sequência</b>, um depois do outro: a corrente sai da pilha, passa por uma lâmpada e só então segue para a outra. No <b>circuito em paralelo</b>, os elementos ficam dispostos de forma que <span class="hl">todos recebam a mesma tensão</span>: a corrente sai da pilha e passa pelas duas lâmpadas ao mesmo tempo.',
+  'Outra classificação importante é entre <b>aberto</b> e <b>fechado</b>. Quando o circuito está <b>aberto</b>, ele <b>não permite a passagem de corrente</b> — é o que acontece quando o interruptor (ou chave) está na posição <b>"desligado"</b>. Quando o circuito está <b>fechado</b>, há contato entre as partes condutoras e a corrente passa — é o que acontece com o interruptor <b>"ligado"</b>.',
+  'Resumindo o painel: <b>série</b> = tudo em fila, um atrás do outro; <b>paralelo</b> = cada aparelho no seu caminho, todos com a mesma tensão; <b>aberto</b> = desligado, sem corrente; <b>fechado</b> = ligado, com corrente.'
+ ],
+ q:['Quais são os três elementos que todo circuito elétrico tem?',
+    'Qual a diferença entre um circuito em série e um em paralelo?',
+    'O que significa um circuito estar "aberto"? Passa corrente nele?'],
+ m:['Um aparelho (lâmpada, geladeira etc.), uma fonte de energia (rede da tomada, bateria ou pilha) e os fios de ligação.',
+    'No circuito em série os elementos ficam ligados em sequência, um depois do outro. No paralelo eles ficam dispostos de forma que todos recebam a mesma tensão, cada um no seu caminho.',
+    'Aberto significa que o interruptor está na posição "desligado". Nesse caso NÃO passa corrente — só passa quando o circuito está fechado (ligado).']
+},
+{
+ t:'Efeito Joule, resistores e lâmpadas',
+ p:[
+  'Quando a corrente passa por um material condutor, os elétrons <b>colidem</b> com a estrutura das partículas do material, provocando <b>agitação</b>. Essa agitação se manifesta como <b>energia térmica</b>, ou seja, parte da energia elétrica <span class="hl">se transforma em calor</span>. Esse fenômeno se chama <b>efeito Joule</b>.',
+  'O efeito Joule é o princípio de funcionamento de alguns aparelhos que geram calor de propósito, como o <b>chuveiro</b> e o <b>ferro de passar roupa</b>. Esses aparelhos contêm um <b>resistor</b>: um material que resiste à passagem da corrente e amplia a perda de energia na forma de calor. É o resistor do chuveiro que esquenta a água quando ela passa por ele.',
+  'As <b>lâmpadas</b> também usam a corrente para produzir luz, cada uma de um jeito. As <b>incandescentes</b> funcionam pela passagem de corrente por um <b>filamento de tungstênio</b>, que aquece e emite luz — mas desperdiçam muita energia como calor. As <b>fluorescentes</b> emitem luz quando a corrente passa por um <b>gás</b>: são mais caras, porém mais duráveis e eficientes que as incandescentes (mas contêm <b>mercúrio</b>, material perigoso).',
+  'As <b>lâmpadas de LED</b> convertem energia elétrica em luz por meio de um circuito eletrônico com <b>diodos emissores de luz (LEDs)</b>, feitos de <b>material semicondutor</b>. Elas são <span class="hl">as mais eficientes de todas</span>: convertem a maior parte da energia em luz (em vez de calor), duram <b>25 mil horas ou mais</b> e <b>não contêm mercúrio</b>. Por isso o LED é a melhor escolha para quem busca iluminação econômica e segura.'
+ ],
+ q:['O que é o efeito Joule?',
+    'Para que serve o resistor num chuveiro elétrico?',
+    'Por que a lâmpada de LED é mais eficiente que a incandescente e a fluorescente?'],
+ m:['É a transformação de parte da energia elétrica em calor quando a corrente passa por um material, por causa das colisões dos elétrons com a estrutura do material.',
+    'O resistor resiste à passagem da corrente e amplia a perda de energia na forma de calor. É ele que aquece a água que passa pelo chuveiro.',
+    'Porque o LED converte a maior parte da energia elétrica em luz, em vez de desperdiçar como calor. Além disso, dura muito mais (25 mil horas ou mais) e não contém mercúrio.']
+},
+{
+ t:'Potência elétrica e consumo de energia',
+ p:[
+  'Os aparelhos elétricos <b>transformam</b> a energia elétrica em outras formas de energia (luz, calor, movimento). A grandeza que mede a <b>rapidez</b> com que essa transformação acontece é a <b>potência elétrica</b>. No SI, a potência é medida em <b>watt</b>, cujo símbolo é <b>W</b>. É a terceira medida do nosso painel: <span class="hl">watt (W) mede a potência</span>.',
+  'A potência sozinha não diz quanto gastamos — precisamos saber por <b>quanto tempo</b> o aparelho fica ligado. Daí vem a fórmula mais importante desta prova:',
+  '<b>consumo de energia = potência × intervalo de tempo</b>. Se a potência estiver em watt (W) e o tempo em horas (h), o consumo sai em <b>watt-hora (Wh)</b>. Como esse número costuma ser grande, usamos o <b>quilowatt-hora (kWh)</b>: <span class="hl">1 kWh = 1 000 Wh</span>. Para transformar watt em quilowatt, é só dividir por 1 000 (ex.: 5 500 W = 5,5 kW).',
+  'Um exemplo rápido para pegar o jeito, com um <b>ferro elétrico de 1 000 W</b> usado <b>2 horas por dia durante 30 dias</b>: primeiro passamos a potência para quilowatt (1 000 W = <b>1 kW</b>); depois somamos o tempo total (2 × 30 = <b>60 h</b>); por fim multiplicamos: 1 kW × 60 h = <b>60 kWh</b> no mês. (No Resumo tem a "Oficina de Cálculo" com os 5 exercícios do caderno resolvidos passo a passo.)'
+ ],
+ q:['O que a potência elétrica mede e em que unidade?',
+    'Escreva a fórmula do consumo de energia.',
+    'Quantos watt-hora tem 1 kWh?'],
+ m:['A potência mede a rapidez com que o aparelho transforma a energia elétrica em outras formas. É medida em watt (W).',
+    'Consumo de energia = potência × intervalo de tempo. Com a potência em kW e o tempo em h, o consumo sai em kWh.',
+    '1 kWh = 1 000 Wh.'],
+ calc:'<div class="ct">🧮 Passo a passo do exemplo</div>Ferro de <code>1000 W</code> · <code>2 h/dia</code> · <code>30 dias</code><br>1) potência: 1000 W ÷ 1000 = <code>1 kW</code><br>2) tempo total: 2 × 30 = <code>60 h</code><br>3) consumo: 1 × 60 = <code>60 kWh</code>'
+},
+{
+ t:'Etiqueta INMETRO, bandeiras e Tarifa Social',
+ p:[
+  'Na hora de comprar, os eletrodomésticos vêm com uma <b>etiqueta de eficiência energética</b> que informa o consumo do aparelho. Ela usa letras de <b>A a G</b>: um produto classificado como <b>A</b> é o <span class="hl">mais eficiente</span> e pode representar uma economia de até <b>15%</b> em relação a um aparelho semelhante classificado como <b>E</b>. Essa etiqueta é do <b>INMETRO</b> e serve para orientar o consumidor no ato da compra.',
+  'Na conta de luz existe o sistema de <b>bandeiras tarifárias</b>, que informa os custos reais de gerar energia e incentiva o consumo consciente. A <b>bandeira verde</b> indica condições favoráveis: <b>sem cobrança adicional</b>. A <b>bandeira amarela</b> indica situação de alerta (geração mais cara), com <b>uma cobrança adicional</b>. A <b>bandeira vermelha</b> representa as condições mais críticas, com um <b>custo adicional maior</b> na conta.',
+  'Pense nas bandeiras como um <b>semáforo da energia</b>: verde = pode seguir tranquilo, sem custo extra; amarelo = atenção, começou a custar mais; vermelho = mais caro ainda, hora de economizar.',
+  'Há também a <b>Tarifa Social de Energia Elétrica</b>: um programa do governo federal que dá <b>descontos</b> na conta de luz para <b>famílias de baixa renda</b>. Os descontos variam de <b>10% a 65%</b>, conforme o consumo mensal, com <b>isenção total</b> para indígenas e quilombolas em consumos até 50 kWh/mês. Famílias inscritas no <b>Cadastro Único (CadÚnico)</b> ou que recebem o <b>BPC</b> entram automaticamente. Esse tipo de iniciativa é importante para <b>diminuir a desigualdade social</b>.'
+ ],
+ q:['Na etiqueta do INMETRO, qual letra indica o aparelho mais eficiente?',
+    'O que significa cada cor das bandeiras tarifárias (verde, amarela e vermelha)?',
+    'O que é a Tarifa Social de Energia Elétrica e para quem ela serve?'],
+ m:['A letra A indica o aparelho mais eficiente. Ele pode economizar até 15% em relação a um semelhante classificado como E.',
+    'Verde: condições favoráveis, sem cobrança adicional. Amarela: alerta, com uma cobrança adicional. Vermelha: condições críticas, com um custo adicional maior na conta.',
+    'É um programa do governo federal que dá descontos (de 10% a 65%) na conta de luz para famílias de baixa renda, ajudando a diminuir a desigualdade social.']
+},
+{
+ t:'Tensão (ddp / volt) e resistência (ohm)',
+ p:[
+  'Para que os elétrons se movam de forma ordenada, é preciso aplicar uma <b>força</b> sobre eles. Toda carga elétrica é capaz de produzir uma força sobre outra carga próxima, gerando uma <b>diferença de potencial (ddp)</b>, também chamada de <b>tensão elétrica</b>. No SI, a ddp é medida em <b>volt</b>, cujo símbolo é <b>V</b>. É a quarta medida do painel: <span class="hl">volt (V) mede a tensão</span>.',
+  'Numa <b>pilha alcalina</b>, a região com o sinal <b>negativo</b> tem <b>maior</b> concentração de elétrons, e a região com o sinal <b>positivo</b> tem <b>menor</b> concentração. Esse desequilíbrio produz a diferença de potencial que faz a corrente aparecer quando ligamos uma região à outra por um fio. O mesmo acontece na tomada: a tensão dos fios que chegam às casas é de <b>110 V ou 220 V</b>.',
+  'Já a <b>resistência elétrica</b> é a <b>dificuldade</b> que os elétrons encontram para se movimentar num material. Dá para comparar com o <b>atrito</b>: quanto maior a resistência, mais difícil a mobilidade dos elétrons. No SI, a resistência é medida em <b>ohm</b>, cujo símbolo é a letra grega <b>Ω</b> (ômega maiúscula).',
+  'Mantida a temperatura, a resistência depende de <b>três fatores</b>. ① <b>Tipo de material</b>: o cobre tem baixa resistência; a porcelana, alta. ② <b>Comprimento</b>: <span class="hl">quanto maior o comprimento, maior a resistência</span>. ③ <b>Espessura</b>: <span class="hl">quanto maior a espessura, menor a resistência</span>. (Cuidado: comprimento e espessura puxam para lados contrários!)'
+ ],
+ q:['O que é a diferença de potencial (ddp) e em que unidade ela é medida?',
+    'Qual é a tensão dos fios que chegam às casas no Brasil?',
+    'Quais são os três fatores de que a resistência elétrica depende?'],
+ m:['É a força (tensão elétrica) que organiza o movimento dos elétrons. É medida em volt, símbolo V.',
+    'A tensão da rede que chega às casas é de 110 V ou 220 V.',
+    'Depende do tipo de material, do comprimento e da espessura. Quanto maior o comprimento, maior a resistência; quanto maior a espessura, menor a resistência.']
+},
+{
+ t:'A corrente no corpo humano e os cuidados',
+ p:[
+  'Quando a corrente elétrica passa por um corpo, ela pode causar vários <b>efeitos</b>. O <b>efeito luminoso</b> é a emissão de luz ao atravessar um gás (como nos raios e nas lâmpadas fluorescentes). O <b>efeito químico</b> acontece quando a corrente atravessa uma solução e desencadeia reações (como na cromagem e na douração de objetos). O <b>efeito térmico</b> é o aquecimento (o efeito Joule dos chuveiros e ferros). E o <b>efeito fisiológico</b> ocorre quando a corrente atravessa um <b>organismo vivo</b>, atuando sobre os sistemas <b>muscular e nervoso</b>.',
+  'Na saúde humana, tudo depende da <b>intensidade</b> e da <b>duração</b>. Correntes de baixa intensidade (<b>até 1 mA</b>) causam apenas <b>formigamento</b>; de <b>10 a 100 mA</b> podem provocar <b>contrações musculares, paralisia respiratória e arritmias</b>; acima de <b>100 mA</b> são extremamente perigosas e podem causar <b>parada cardíaca</b> e queimaduras graves. A <b>pele molhada</b> aumenta o risco, porque a água conduz eletricidade.',
+  'Mas a corrente também traz <b>benefícios</b>: na <b>fisioterapia</b> e na medicina esportiva ela é usada para reabilitação e fortalecimento muscular; em <b>paradas cardíacas</b>, o <b>desfibrilador</b> aplica choques controlados para restabelecer o ritmo do coração.',
+  'Por isso, alguns <b>cuidados com as instalações elétricas</b> são essenciais: <b>não ligar vários aparelhos na mesma tomada</b> (sobrecarga), <b>cobrir as tomadas</b> com protetores em casas com bebês, <b>não empinar pipas perto da rede elétrica</b>, <b>desligar a chave geral</b> antes de trocar uma lâmpada e <b>chamar um eletricista</b> para mexer na parte interna das tomadas. A manutenção da fiação deve ser feita sempre por profissionais.'
+ ],
+ q:['Cite os quatro efeitos da passagem da corrente por um corpo.',
+    'Por que a pele molhada aumenta o risco de choque?',
+    'Cite dois cuidados que devemos ter com as instalações elétricas.'],
+ m:['Efeito luminoso, efeito químico, efeito térmico e efeito fisiológico.',
+    'Porque a água conduz eletricidade. Com a pele molhada, a corrente passa com mais facilidade pelo corpo, aumentando o perigo.',
+    'Bastam dois: não ligar vários aparelhos na mesma tomada; não empinar pipa perto da rede elétrica; desligar a chave geral para trocar lâmpada; chamar um eletricista para mexer na parte interna das tomadas.']
+}
+];
+
+var PEGS=[
+ ['Ampère (A) mede a tensão?','NÃO. Ampère (A) mede a CORRENTE. A tensão é medida em volt (V); a potência, em watt (W); a resistência, em ohm (Ω).'],
+ ['Toda água conduz eletricidade?','CUIDADO. A água do mar (com sais) conduz. Já a água destilada (pura) é MÁ condutora — quem conduz são os sais dissolvidos.'],
+ ['A instalação de uma casa é um circuito em série?','NÃO. Numa casa os aparelhos ficam em PARALELO, para que todos recebam a mesma tensão e um não dependa do outro.'],
+ ['Circuito aberto deixa passar corrente?','NÃO. Aberto = interruptor desligado = SEM corrente. Só passa corrente com o circuito FECHADO (ligado).'],
+ ['A lâmpada fluorescente é a mais eficiente?','NÃO. A mais eficiente e durável é o LED. A fluorescente é melhor que a incandescente, mas contém mercúrio.'],
+ ['Consumo de energia é medido em watt?','NÃO. Watt (W) mede a POTÊNCIA. O CONSUMO é medido em watt-hora (Wh) ou quilowatt-hora (kWh).'],
+ ['1 kWh é igual a 100 Wh?','NÃO. 1 kWh = 1 000 Wh. Para virar kW, divida os watts por 1 000.'],
+ ['Fio mais comprido tem menos resistência?','NÃO. Quanto MAIOR o comprimento, MAIOR a resistência. Já quanto maior a espessura, MENOR a resistência.'],
+ ['Bandeira verde deixa a conta mais cara?','NÃO. Verde = sem cobrança adicional. Amarela = cobrança adicional; vermelha = custo adicional maior.'],
+ ['O corpo humano é isolante?','NÃO. O corpo humano é bom CONDUTOR — por isso o choque é perigoso, ainda mais com a pele molhada.']
+];
+
+function render(){
+  var host=document.getElementById('blocos');
+  var html='';
+  for(var i=0;i<BLOCOS.length;i++){
+    var b=BLOCOS[i];
+    var feito=!!estado.feito['b'+i];
+    var liberado=(i===0)||!!estado.feito['b'+(i-1)];
+    var cls='bloco'+(feito?' done':'')+(liberado?'':' locked');
+    html+='<div class="'+cls+'" id="bl'+i+'">';
+    html+='<h3><span class="num">'+(i+1)+'</span> '+b.t+(feito?' <span style="color:var(--green);font-size:15px">✔ ligado</span>':'')+'</h3>';
+    if(!liberado){
+      html+='<div class="lock-msg">🔒 Setor desligado. Conclua o setor '+i+' para ligar este.</div>';
+    }else{
+      html+='<div class="body">';
+      for(var j=0;j<b.p.length;j++){html+='<p>'+b.p[j]+'</p>';}
+      if(b.calc){html+='<div class="calc">'+b.calc+'</div>';}
+      html+='<div class="pare"><div class="ttl">✋ Pare e pense</div>';
+      for(var k=0;k<b.q.length;k++){
+        var key='b'+i+'q'+k;
+        var val=estado.resp[key]||'';
+        html+='<div class="q"><label>'+(k+1)+'. '+b.q[k]+'</label>'+
+              '<textarea id="'+key+'" oninput="digitou('+i+')" placeholder="Escreva com suas palavras...">'+
+              val.replace(/</g,'&lt;')+'</textarea></div>';
+      }
+      html+='<button class="btn btn-gold" id="btn'+i+'" onclick="conferir('+i+')" disabled>🔍 Conferir e ligar o próximo setor</button>';
+      html+='<div class="hint" id="hint'+i+'">Preencha as 3 respostas (pelo menos 3 letras em cada) para liberar o botão.</div>';
+      html+='</div>';
+      html+='<div class="modelo'+(feito?' show':'')+'" id="mod'+i+'"><h4>✅ Resposta-modelo — compare com a sua</h4>';
+      for(var m=0;m<b.m.length;m++){html+='<div class="item"><b>'+(m+1)+'.</b> '+b.m[m]+'</div>';}
+      var a=estado.auto['b'+i]||'';
+      html+='<div class="auto"><div class="lbl">Como você se saiu neste setor?</div>'+
+        '<button class="btn btn-teal'+(a==='ok'?' sel':'')+'" onclick="marcar('+i+',\'ok\')">😎 Mandei bem</button>'+
+        '<button class="btn btn-gold'+(a==='quase'?' sel':'')+'" onclick="marcar('+i+',\'quase\')">🤔 Quase lá</button>'+
+        '<button class="btn btn-red'+(a==='rever'?' sel':'')+'" onclick="marcar('+i+',\'rever\')">📌 Preciso revisar</button>'+
+        '</div></div>';
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+  host.innerHTML=html;
+  for(var i2=0;i2<BLOCOS.length;i2++){ if(document.getElementById('btn'+i2)) digitou(i2); }
+  atualizarBarra();
+}
+function digitou(i){
+  var ok=true;
+  for(var k=0;k<BLOCOS[i].q.length;k++){
+    var ta=document.getElementById('b'+i+'q'+k);
+    if(!ta)return;
+    estado.resp['b'+i+'q'+k]=ta.value;
+    if(ta.value.trim().length<3)ok=false;
+  }
+  var btn=document.getElementById('btn'+i);
+  if(btn)btn.disabled=!ok;
+  var h=document.getElementById('hint'+i);
+  if(h)h.textContent=ok?'Pronto! Pode conferir. ✅':'Preencha as 3 respostas (pelo menos 3 letras em cada) para liberar o botão.';
+  salvarLeve();
+}
+var tmr=null;
+function salvarLeve(){ if(tmr)clearTimeout(tmr); tmr=setTimeout(salvar,600); }
+function conferir(i){
+  estado.feito['b'+i]=true;salvar();render();
+  var el=document.getElementById('mod'+i);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function marcar(i,v){
+  estado.auto['b'+i]=v;salvar();render();
+  var el=document.getElementById('bl'+i);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function atualizarBarra(){
+  var n=0;
+  for(var i=0;i<BLOCOS.length;i++){if(estado.feito['b'+i])n++;}
+  document.getElementById('pbar').style.width=(n/BLOCOS.length*100)+'%';
+  document.getElementById('plbl').textContent='Setores ligados: '+n+' de '+BLOCOS.length;
+}
+function renderPegs(){
+  var h='';
+  for(var i=0;i<PEGS.length;i++){
+    h+='<div class="peg" onclick="this.classList.toggle(\'open\')">'+
+       '<div class="t">Armadilha '+(i+1)+'</div><div>'+PEGS[i][0]+'</div>'+
+       '<div class="a">'+PEGS[i][1]+'</div>'+
+       '<div class="tip">clique para ver a resposta</div></div>';
+  }
+  document.getElementById('pegs').innerHTML=h;
+}
+function abrir(id){document.getElementById(id).classList.add('show');}
+function fechar(id){document.getElementById(id).classList.remove('show');}
+function aviso(t,x){document.getElementById('avTtl').textContent=t;document.getElementById('avTxt').textContent=x;abrir('mAviso');}
+function abrirZerar(){abrir('mZerar');}
+function abrirImport(){document.getElementById('impTxt').value='';abrir('mImport');}
+function zerarTudo(){
+  LS.del(CHAVE);estado={resp:{},feito:{},auto:{},quando:null};
+  fechar('mZerar');mostrarSalvo();render();
+}
+function exportar(){document.getElementById('expTxt').value=JSON.stringify(estado);abrir('mExport');var t=document.getElementById('expTxt');t.focus();t.select();}
+function importar(){
+  var txt=document.getElementById('impTxt').value.trim();
+  try{var d=JSON.parse(txt);
+    estado.resp=d.resp||{};estado.feito=d.feito||{};estado.auto=d.auto||{};
+    salvar();fechar('mImport');render();
+    aviso('Tudo certo!','Suas respostas foram importadas com sucesso.');
+  }catch(e){fechar('mImport');aviso('Não deu certo','O texto colado não parece um arquivo de respostas válido. Tente copiar de novo, inteirinho.');}
+}
+carregar();mostrarSalvo();render();renderPegs();
+</script>
+</body>
+</html>
