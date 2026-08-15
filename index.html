@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Energia — Kit de Estudos | Ciências 8º ano</title>
+<style>
+:root{
+  --bg:#171c20; --panel:#212930; --panel2:#2c353d; --line:#3b4650;
+  --gold:#f4c11f; --teal:#37b3c4; --lime:#a8d420;
+  --red:#e0533f; --green:#5cb87f; --text:#eef2f4; --muted:#a2b1bb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:linear-gradient(rgba(168,212,32,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(168,212,32,.05) 1px,transparent 1px);
+  background-size:42px 42px;color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;font-size:17px;line-height:1.7;padding-bottom:80px;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(135deg,#1b2a12,#5f7d1a);border-bottom:6px solid var(--lime);padding:44px 18px 38px;text-align:center;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 2px,transparent 2px);background-size:26px 26px;opacity:.5}
+header.top .inner{position:relative;z-index:2}
+.tag{display:inline-block;background:#12210a;color:#d6f27f;border:2px solid var(--lime);padding:5px 14px;border-radius:4px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+header.top h1{font-size:38px;line-height:1.15;letter-spacing:1px;text-transform:uppercase;text-shadow:2px 3px 0 rgba(0,0,0,.35)}
+header.top p{margin-top:12px;font-size:17px;color:#f2ffe0}
+.prova{display:inline-block;margin-top:14px;background:#241c04;color:var(--gold);border:2px solid var(--gold);padding:8px 18px;border-radius:8px;font-weight:800}
+h2.sec{font-size:22px;margin:34px 0 14px;color:var(--lime);text-transform:uppercase;letter-spacing:1px;border-left:8px solid var(--lime);padding-left:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:22px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;transition:transform .15s,border-color .15s;position:relative}
+.card:hover{transform:translateY(-4px)}
+.card .step{position:absolute;top:14px;right:16px;font-size:13px;font-weight:900;color:var(--muted)}
+.card .ic{font-size:40px;margin-bottom:10px}
+.card h3{font-size:21px;margin-bottom:6px}
+.card p{font-size:14.5px;color:var(--muted);flex:1}
+.card .go{margin-top:14px;font-weight:800;font-size:14px}
+.card.c1{border-color:var(--lime)} .card.c1 h3{color:var(--lime)} .card.c1 .go{color:var(--lime)}
+.card.c2{border-color:var(--teal)} .card.c2 h3{color:var(--teal)} .card.c2 .go{color:var(--teal)}
+.card.c3{border-color:var(--gold)} .card.c3 h3{color:var(--gold)} .card.c3 .go{color:var(--gold)}
+.card.c4{border-color:var(--red)} .card.c4 h3{color:#ffbcb2} .card.c4 .go{color:#ffbcb2}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:16px}
+.box.cron{border-left:8px solid var(--teal)}
+.box.mae{border-left:8px solid var(--gold)}
+.box ol{margin:8px 0 0 20px}.box ol li{margin-bottom:8px}
+.box ul{margin:8px 0 0 20px}.box ul li{margin-bottom:6px}
+.box b{color:var(--gold)}
+.code{display:inline-block;background:#101519;border:1px dashed var(--muted);color:var(--teal);padding:1px 8px;border-radius:5px;font-family:"Courier New",monospace;font-weight:700}
+.foot{text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+@media(max-width:600px){header.top h1{font-size:28px}body{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="tag">⚡ Kit de Estudos · Colégio São José</div>
+    <h1>Central de Energia</h1>
+    <p>Ciências · 8º ano · Eletricidade</p>
+    <div class="prova">🗓️ Prova: segunda-feira, 25/08/2026</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h2 class="sec">🔌 Seus 4 materiais</h2>
+  <p style="color:var(--muted)">Siga a ordem dos números — cada material prepara o próximo. Bom estudo, operador(a)! ⚡</p>
+
+  <div class="cards">
+    <a class="card c1" href="leitura-guiada.html">
+      <span class="step">Passo 1</span>
+      <div class="ic">📖</div>
+      <h3>Leitura Guiada</h3>
+      <p>8 setores da Central com textos curtos e o painel "Pare e pense". Você lê, responde com suas palavras e libera o próximo setor. No fim, a Mesa de Pegadinhas.</p>
+      <div class="go">Começar por aqui →</div>
+    </a>
+    <a class="card c2" href="quiz.html">
+      <span class="step">Passo 2</span>
+      <div class="ic">🎯</div>
+      <h3>Quiz da Central</h3>
+      <p>15 questões objetivas para testar logo o que você leu. No fim, gera o código <span class="code">MED-XX-YY</span> que abre o gabarito comentado.</p>
+      <div class="go">Testar o que aprendi →</div>
+    </a>
+    <a class="card c3" href="resumo.html">
+      <span class="step">Passo 3</span>
+      <div class="ic">🗺️</div>
+      <h3>Resumo</h3>
+      <p>Painel de instrumentos, cartas-conceito para virar, post-its, alertas de pegadinha, a Oficina de Cálculo (5 exercícios resolvidos) e o glossário.</p>
+      <div class="go">Fechar as lacunas →</div>
+    </a>
+    <a class="card c4" href="simulado.html">
+      <span class="step">Passo 4</span>
+      <div class="ic">📝</div>
+      <h3>Simulado Final</h3>
+      <p>26 questões no estilo da prova: múltipla escolha, somatório, afirmativas I–IV, cálculos e uma discursiva. Gera o código <span class="code">SIM-XX-YY</span>.</p>
+      <div class="go">Valendo! →</div>
+    </a>
+  </div>
+
+  <h2 class="sec">🗓️ Cronograma sugerido</h2>
+  <div class="box cron">
+    <ol>
+      <li><b>Dia 1 — Leitura Guiada.</b> Ligue os 8 setores sem pressa, respondendo o "Pare e pense" com suas palavras.</li>
+      <li><b>Dia 2 — Quiz.</b> Faça as 15 questões e veja onde escapou. Anote os temas que deram erro.</li>
+      <li><b>Dia 3 — Resumo.</b> Vire as cartas, releia os post-its e treine a Oficina de Cálculo (os 5 exercícios do caderno).</li>
+      <li><b>Dia 4 — Simulado.</b> Faça as 26 questões como se fosse a prova. Depois abra o gabarito comentado e revise os erros.</li>
+      <li><b>Véspera (24/08).</b> Releia só o Resumo e a Mesa de Pegadinhas. Descanse — você está pronto! ⚡</li>
+    </ol>
+  </div>
+
+  <h2 class="sec">👩‍👦 Dica para a mãe (os códigos)</h2>
+  <div class="box mae">
+    <p>O Quiz e o Simulado têm um <b>gabarito comentado</b> que só abre com um código. Funciona assim:</p>
+    <ul>
+      <li>Quando a criança termina, aparece um código: <span class="code">MED-XX-YY</span> (no Quiz) ou <span class="code">SIM-XX-YY</span> (no Simulado). O <b>XX</b> é o número de acertos.</li>
+      <li>A criança mostra o código para você; você digita na "Área do adulto" e o gabarito comentado abre — com a explicação de cada alternativa, certa e errada.</li>
+      <li>Na discursiva do Simulado há uma <b>resposta-modelo</b> com instruções de como corrigir.</li>
+      <li>Tudo é salvo sozinho no aparelho. Os botões <b>Exportar / Importar / Zerar</b> ajudam a guardar ou recomeçar.</li>
+    </ul>
+  </div>
+
+  <div class="foot">Kit de estudos • Ciências 8º ano • Colégio São José • Tema: Central de Energia ⚡</div>
+</div>
+
+</body>
+</html>
