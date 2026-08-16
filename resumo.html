@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo — Central de Energia | Ciências 8º ano</title>
+<style>
+:root{
+  --bg:#171c20; --panel:#212930; --panel2:#2c353d; --line:#3b4650;
+  --gold:#f4c11f; --teal:#37b3c4; --lime:#a8d420;
+  --red:#e0533f; --green:#5cb87f; --text:#eef2f4; --muted:#a2b1bb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:linear-gradient(rgba(244,193,31,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(244,193,31,.045) 1px,transparent 1px);
+  background-size:42px 42px;color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;font-size:17px;line-height:1.7;padding-bottom:80px;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(135deg,#2a2408,#8a6e0e);border-bottom:6px solid var(--gold);padding:34px 18px 30px;text-align:center;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 2px,transparent 2px);background-size:26px 26px;opacity:.5}
+header.top .inner{position:relative;z-index:2}
+.tag{display:inline-block;background:#241c04;color:#ffe488;border:2px solid var(--gold);padding:5px 14px;border-radius:4px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+header.top h1{font-size:32px;line-height:1.2;letter-spacing:1px;text-transform:uppercase;text-shadow:2px 3px 0 rgba(0,0,0,.32)}
+header.top p{margin-top:10px;font-size:16px;color:#fff6df}
+.navbar{background:var(--panel);border-bottom:3px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:12px;position:sticky;top:0;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.navbar a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px;padding:8px 14px;border-radius:6px;border:2px solid transparent}
+.navbar a:hover{color:var(--text);background:var(--panel2)}
+.navbar a.on{background:var(--gold);color:#2a1c05;border-color:#ffe488}
+.savebar{background:var(--panel2);border:2px solid var(--line);border-radius:10px;margin:20px auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.savebar .st{font-size:13px;color:var(--muted)}
+.savebar .st b{color:var(--teal)}
+.btn{border:none;border-radius:7px;padding:9px 15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s,filter .12s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-gold{background:var(--gold);color:#2a1c05}
+.btn-teal{background:var(--teal);color:#052024}
+.btn-red{background:var(--red);color:#fff}
+.btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--line)}
+h2.sec{font-size:22px;margin:34px 0 14px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;border-left:8px solid var(--gold);padding-left:12px}
+.lead{color:var(--muted);margin-bottom:18px;font-size:15px}
+/* painel de instrumentos */
+.meters{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:10px}
+.meter{background:var(--panel);border:2px solid var(--teal);border-radius:12px;padding:16px;text-align:center;position:relative}
+.meter .u{font-size:40px;font-weight:900;color:var(--teal);font-family:"Courier New",monospace;line-height:1}
+.meter .n{font-size:15px;font-weight:800;margin-top:6px;color:var(--text)}
+.meter .d{font-size:13px;color:var(--muted);margin-top:4px}
+/* flip cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.flip{background:transparent;height:190px;perspective:1000px;cursor:pointer}
+.flip .inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .inner{transform:rotateY(180deg)}
+.flip .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:center;border:2px solid var(--line)}
+.flip .front{background:var(--panel2)}
+.flip .front .ic{font-size:30px;margin-bottom:8px}
+.flip .front .t{font-weight:800;font-size:17px;color:var(--gold)}
+.flip .front .h{font-size:12px;color:var(--muted);margin-top:auto}
+.flip .back{background:#0f2b20;border-color:var(--green);transform:rotateY(180deg);font-size:14.5px;overflow:auto}
+.flip .back b{color:#a6ecc6}
+/* postits */
+.postits{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.postit{background:#f4d84a;color:#2a2205;border-radius:4px;padding:16px 18px;font-size:15px;box-shadow:4px 6px 14px rgba(0,0,0,.35);transform:rotate(-1.4deg)}
+.postit:nth-child(even){transform:rotate(1.6deg);background:#ffe873}
+.postit .pt{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:13px;margin-bottom:6px}
+/* pegadinhas */
+.alertas{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.alerta{background:var(--panel);border:2px solid var(--red);border-left:8px solid var(--red);border-radius:10px;padding:14px 16px;font-size:15px}
+.alerta .at{color:#f2b4ae;font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:13px;margin-bottom:6px}
+/* oficina de cálculo */
+.formbox{background:#101d22;border:3px dashed var(--teal);border-radius:12px;padding:18px;text-align:center;margin-bottom:18px}
+.formbox .big{font-size:22px;font-weight:900;color:var(--teal)}
+.formbox .sm{font-size:14px;color:var(--muted);margin-top:8px}
+.exe{background:var(--panel);border:2px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden}
+.exe h4{background:var(--panel2);padding:13px 16px;font-size:17px;border-bottom:2px solid var(--line);color:var(--lime)}
+.exe .body{padding:14px 18px}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.step .b{background:var(--lime);color:#1a2405;width:26px;height:26px;flex:0 0 26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+.step code,.calccode{background:#06282e;color:#bff0f6;padding:2px 7px;border-radius:5px;font-weight:700;font-family:"Courier New",monospace}
+.rescard{background:#0f2b20;border:2px solid var(--green);border-radius:8px;padding:12px 14px;margin-top:8px;font-weight:800;color:#a6ecc6}
+/* glossario */
+.gloss{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:6px 20px}
+.gloss dl{margin:0}
+.gloss dt{font-weight:800;color:var(--gold);margin-top:14px}
+.gloss dd{margin:4px 0 0;color:var(--muted);font-size:15px}
+.footnav{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+.footnav a{background:var(--gold);color:#2a1c05;text-decoration:none;font-weight:800;padding:14px 24px;border-radius:9px;font-size:16px;border:3px solid #b8901a}
+.footnav a.alt2{background:var(--panel2);color:var(--text);border-color:var(--line)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(6,10,12,.82);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:3px solid var(--gold);border-radius:12px;max-width:440px;width:100%;padding:24px}
+.modal h3{color:var(--gold);margin-bottom:12px;font-size:20px}
+.modal p{margin-bottom:18px;font-size:15px}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.modal textarea{width:100%;height:110px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:monospace;font-size:12px;margin-bottom:14px}
+@media(max-width:600px){header.top h1{font-size:24px}body{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="tag">⚡ Central de Energia · Sala de Controle</div>
+    <h1>🗺️ Resumo da Central</h1>
+    <p>Ciências · 8º ano · Eletricidade em painéis, cartas e cálculos</p>
+    <p style="font-size:14px;opacity:.9">Prova: 25/08/2026 · Colégio São José</p>
+  </div>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">🏠 Início</a>
+  <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+  <a href="quiz.html">🎯 Quiz</a>
+  <a href="resumo.html" class="on">🗺️ Resumo</a>
+  <a href="simulado.html">📝 Simulado</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="savebar">
+    <div class="st">💾 As cartas que você virar ficam salvas. <b id="saveInfo">Nada salvo ainda.</b></div>
+    <div>
+      <button class="btn btn-teal" onclick="exportar()">📥 Exportar</button>
+      <button class="btn btn-gold" onclick="abrirImport()">📤 Importar</button>
+      <button class="btn btn-red" onclick="abrirZerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <h2 class="sec">🎛️ Painel de instrumentos — as 4 medidas</h2>
+  <p class="lead">Se você decorar só uma coisa, decore este painel: cada grandeza tem a sua unidade. A prova adora trocar uma pela outra.</p>
+  <div class="meters">
+    <div class="meter"><div class="u">A</div><div class="n">Ampère</div><div class="d">mede a CORRENTE elétrica</div></div>
+    <div class="meter"><div class="u">V</div><div class="n">Volt</div><div class="d">mede a TENSÃO (ddp)</div></div>
+    <div class="meter"><div class="u">W</div><div class="n">Watt</div><div class="d">mede a POTÊNCIA</div></div>
+    <div class="meter"><div class="u">Ω</div><div class="n">Ohm</div><div class="d">mede a RESISTÊNCIA</div></div>
+  </div>
+  <p class="lead" style="margin-top:12px">E o <b style="color:var(--gold)">CONSUMO</b> de energia é medido em <b style="color:var(--gold)">watt-hora (Wh)</b> ou <b style="color:var(--gold)">quilowatt-hora (kWh)</b> — não confunda com a potência!</p>
+
+  <h2 class="sec">🃏 Cartas-conceito — clique para virar</h2>
+  <p class="lead">Cada carta tem o conceito na frente e a explicação atrás. Clique para virar e teste se você lembra antes de ler o verso.</p>
+  <div class="grid" id="cards"></div>
+
+  <h2 class="sec">📌 Dicas de prova (post-its)</h2>
+  <div class="postits">
+    <div class="postit"><div class="pt">Trio do circuito</div>Todo circuito precisa de 3 coisas: <b>aparelho + fonte + fios</b>. Se faltar uma, não há corrente.</div>
+    <div class="postit"><div class="pt">Aberto x fechado</div><b>Aberto = desligado = sem corrente.</b> <b>Fechado = ligado = com corrente.</b> É o interruptor que decide.</div>
+    <div class="postit"><div class="pt">Casa é paralelo</div>Na sua casa os aparelhos ficam em <b>paralelo</b>: todos recebem a mesma tensão e um não depende do outro.</div>
+    <div class="postit"><div class="pt">Campeão de eficiência</div>Ranking das lâmpadas: <b>LED &gt; fluorescente &gt; incandescente</b>. O LED ganha em economia e durabilidade.</div>
+    <div class="postit"><div class="pt">Semáforo da conta</div>Bandeira <b>verde</b> = sem custo extra · <b>amarela</b> = custa mais · <b>vermelha</b> = custa ainda mais.</div>
+    <div class="postit"><div class="pt">Fórmula de ouro</div><b>consumo = potência × tempo</b>. Passe W para kW (÷1000) e o tempo para horas. Resultado em kWh.</div>
+    <div class="postit"><div class="pt">Resistência: 3 fatores</div>Material + comprimento + espessura. <b>Mais comprido = mais resistência</b>; <b>mais grosso = menos resistência</b>.</div>
+    <div class="postit"><div class="pt">Etiqueta INMETRO</div><b>A é o mais eficiente</b> (até 15% de economia sobre o E). Vai de A (melhor) a G (pior).</div>
+  </div>
+
+  <h2 class="sec">⚠️ Alerta de pegadinhas</h2>
+  <div class="alertas">
+    <div class="alerta"><div class="at">Água</div>Água do <b>mar</b> conduz (tem sais). Água <b>destilada</b> (pura) é <b>má condutora</b>.</div>
+    <div class="alerta"><div class="at">Unidades</div>Corrente → <b>A</b> · Tensão → <b>V</b> · Potência → <b>W</b> · Resistência → <b>Ω</b> · Consumo → <b>Wh/kWh</b>.</div>
+    <div class="alerta"><div class="at">1 kWh</div><b>1 kWh = 1 000 Wh</b> (não é 100!). Para virar kW, divida os watts por 1 000.</div>
+    <div class="alerta"><div class="at">Corpo humano</div>É <b>bom condutor</b> — por isso o choque é perigoso, ainda mais com a pele molhada.</div>
+    <div class="alerta"><div class="at">Fluorescente</div>É melhor que a incandescente, mas <b>contém mercúrio</b> e perde para o LED em eficiência.</div>
+    <div class="alerta"><div class="at">Comprimento x espessura</div>Eles puxam para lados <b>contrários</b>: comprido aumenta a resistência, grosso diminui.</div>
+  </div>
+
+  <h2 class="sec">🧮 Oficina de Cálculo — os 5 do caderno, passo a passo</h2>
+  <div class="formbox">
+    <div class="big">consumo (kWh) = potência (kW) × tempo (h)</div>
+    <div class="sm">Passo a passo: ① passe a potência de W para kW (÷ 1000) · ② calcule o tempo total em horas · ③ multiplique · (④ custo = consumo × tarifa)</div>
+  </div>
+
+  <div class="exe">
+    <h4>1) Chuveiro — 5 500 W, 20 min/dia, 30 dias</h4>
+    <div class="body">
+      <div class="step"><span class="b">1</span><div>Potência em kW: <span class="calccode">5500 ÷ 1000 = 5,5 kW</span></div></div>
+      <div class="step"><span class="b">2</span><div>Tempo por dia em horas: <span class="calccode">20 min = 20 ÷ 60 = 0,333... h</span>. Em 30 dias: <span class="calccode">0,333 × 30 = 10 h</span></div></div>
+      <div class="step"><span class="b">3</span><div>Consumo: <span class="calccode">5,5 × 10 = 55</span></div></div>
+      <div class="rescard">✅ Consumo mensal = 55 kWh</div>
+    </div>
+  </div>
+
+  <div class="exe">
+    <h4>2) Ventilador — 120 W, 8 h/dia, 25 dias</h4>
+    <div class="body">
+      <div class="step"><span class="b">1</span><div>Potência em kW: <span class="calccode">120 ÷ 1000 = 0,12 kW</span></div></div>
+      <div class="step"><span class="b">2</span><div>Tempo total: <span class="calccode">8 × 25 = 200 h</span></div></div>
+      <div class="step"><span class="b">3</span><div>Consumo: <span class="calccode">0,12 × 200 = 24</span></div></div>
+      <div class="rescard">✅ Consumo total = 24 kWh</div>
+    </div>
+  </div>
+
+  <div class="exe">
+    <h4>3) Geladeira — 200 W, 12 h/dia, 30 dias</h4>
+    <div class="body">
+      <div class="step"><span class="b">1</span><div>Potência em kW: <span class="calccode">200 ÷ 1000 = 0,2 kW</span></div></div>
+      <div class="step"><span class="b">2</span><div>Tempo total: <span class="calccode">12 × 30 = 360 h</span></div></div>
+      <div class="step"><span class="b">3</span><div>Consumo: <span class="calccode">0,2 × 360 = 72</span></div></div>
+      <div class="rescard">✅ Consumo mensal = 72 kWh</div>
+    </div>
+  </div>
+
+  <div class="exe">
+    <h4>4) TV — 150 W, 5 h/dia, 30 dias · tarifa R$ 0,90/kWh</h4>
+    <div class="body">
+      <div class="step"><span class="b">1</span><div>Potência em kW: <span class="calccode">150 ÷ 1000 = 0,15 kW</span></div></div>
+      <div class="step"><span class="b">2</span><div>Tempo total: <span class="calccode">5 × 30 = 150 h</span></div></div>
+      <div class="step"><span class="b">3</span><div>Consumo: <span class="calccode">0,15 × 150 = 22,5 kWh</span></div></div>
+      <div class="step"><span class="b">4</span><div>Custo: <span class="calccode">22,5 × 0,90 = 20,25</span></div></div>
+      <div class="rescard">✅ Consumo = 22,5 kWh · Custo no mês = R$ 20,25</div>
+    </div>
+  </div>
+
+  <div class="exe">
+    <h4>5) Computador — 300 W, 6 h/dia, 20 dias</h4>
+    <div class="body">
+      <div class="step"><span class="b">1</span><div>Potência em kW: <span class="calccode">300 ÷ 1000 = 0,3 kW</span></div></div>
+      <div class="step"><span class="b">2</span><div>Tempo total: <span class="calccode">6 × 20 = 120 h</span></div></div>
+      <div class="step"><span class="b">3</span><div>Consumo: <span class="calccode">0,3 × 120 = 36</span></div></div>
+      <div class="rescard">✅ Consumo = 36 kWh</div>
+    </div>
+  </div>
+
+  <h2 class="sec">📖 Glossário da Central</h2>
+  <div class="gloss">
+    <dl>
+      <dt>Corrente elétrica (A)</dt><dd>Movimento ordenado dos elétrons por um fio condutor. Medida em ampère (A).</dd>
+      <dt>Tensão / ddp (V)</dt><dd>Diferença de potencial: a "força" que organiza o movimento dos elétrons. Medida em volt (V). Na tomada: 110 V ou 220 V.</dd>
+      <dt>Potência (W)</dt><dd>Rapidez com que um aparelho transforma energia elétrica em outras formas. Medida em watt (W).</dd>
+      <dt>Resistência (Ω)</dt><dd>Dificuldade que os elétrons têm para se mover. Medida em ohm (Ω). Depende do material, do comprimento e da espessura.</dd>
+      <dt>Consumo (Wh / kWh)</dt><dd>Energia gasta = potência × tempo. 1 kWh = 1 000 Wh.</dd>
+      <dt>Condutor / Isolante</dt><dd>Condutor deixa a corrente passar (metais, água do mar, corpo, grafita). Isolante dificulta (borracha, vidro, plástico, madeira seca, água destilada).</dd>
+      <dt>Semicondutor / Supercondutor</dt><dd>Semicondutor tem condução intermediária (microprocessadores). Supercondutor conduz quase sem perda, a temperaturas muito baixas.</dd>
+      <dt>Circuito série / paralelo</dt><dd>Série: elementos em sequência. Paralelo: todos recebem a mesma tensão.</dd>
+      <dt>Circuito aberto / fechado</dt><dd>Aberto: desligado, sem corrente. Fechado: ligado, com corrente.</dd>
+      <dt>Efeito Joule</dt><dd>Transformação de parte da energia elétrica em calor. É o que aquece chuveiros e ferros (que usam resistor).</dd>
+      <dt>Efeitos da corrente no corpo</dt><dd>Luminoso, químico, térmico e fisiológico. Na saúde, dependem da intensidade (mA) e da duração.</dd>
+      <dt>Bandeiras tarifárias</dt><dd>Verde (sem custo extra), amarela (custa mais) e vermelha (custa ainda mais) na conta de luz.</dd>
+      <dt>Tarifa Social</dt><dd>Programa do governo com descontos (10% a 65%) na conta de luz para famílias de baixa renda.</dd>
+    </dl>
+  </div>
+
+  <div class="footnav">
+    <a href="simulado.html">Próximo material: 📝 Simulado →</a>
+    <a href="quiz.html" class="alt2">← 🎯 Quiz</a>
+    <a href="index.html" class="alt2">🏠 Início</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="mZerar"><div class="modal">
+  <h3>Zerar tudo?</h3><p>Isso apaga o registro das cartas que você virou neste Resumo.</p>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mZerar')">Cancelar</button>
+  <button class="btn btn-red" onclick="zerarTudo()">Sim, apagar</button></div>
+</div></div>
+<div class="modal-bg" id="mImport"><div class="modal">
+  <h3>Importar</h3><p>Cole abaixo o texto exportado antes:</p>
+  <textarea id="impTxt"></textarea>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mImport')">Cancelar</button>
+  <button class="btn btn-teal" onclick="importar()">Importar</button></div>
+</div></div>
+<div class="modal-bg" id="mExport"><div class="modal">
+  <h3>Exportar</h3><p>Copie tudo e guarde num bloco de notas:</p>
+  <textarea id="expTxt" readonly></textarea>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mExport')">Fechar</button></div>
+</div></div>
+<div class="modal-bg" id="mAviso"><div class="modal">
+  <h3 id="avTtl">Aviso</h3><p id="avTxt"></p>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mAviso')">Ok</button></div>
+</div></div>
+
+<script>
+var MEM={};
+var LS={
+  get:function(k){try{return localStorage.getItem(k);}catch(e){return MEM[k]||null;}},
+  set:function(k,v){try{localStorage.setItem(k,v);}catch(e){MEM[k]=v;}},
+  del:function(k){try{localStorage.removeItem(k);}catch(e){delete MEM[k];}}
+};
+var CHAVE='cie8sj_elet_resumo_v1';
+var estado={flip:{},quando:null};
+
+var CARDS=[
+ ['⚡','Corrente elétrica','<b>Movimento ordenado dos elétrons</b> por um fio condutor, quando ligamos um condutor a uma fonte de energia. Medida em <b>ampère (A)</b>.'],
+ ['🔗','Condutores','Deixam as cargas se moverem com liberdade: <b>metais, água do mar, corpo humano e grafita</b>.'],
+ ['🧱','Isolantes','Maus condutores — as cargas não se movem fácil: <b>borracha, algodão, vidro, madeira seca, plástico e água destilada</b>.'],
+ ['💻','Semicondutores','Condução intermediária. Base dos <b>microprocessadores</b> (computadores e celulares).'],
+ ['🚄','Supercondutores','Conduzem melhor que cobre e prata, quase <b>sem perder energia</b>, a temperaturas muito baixas. Usados em trens de levitação e ressonância magnética.'],
+ ['🧩','Circuito: elementos','Todo circuito tem <b>aparelho + fonte + fios de ligação</b>.'],
+ ['➡️','Série x Paralelo','<b>Série:</b> elementos em sequência, um depois do outro. <b>Paralelo:</b> todos recebem a mesma tensão (é assim na sua casa).'],
+ ['🔀','Aberto x Fechado','<b>Aberto:</b> interruptor desligado, sem corrente. <b>Fechado:</b> ligado, com corrente.'],
+ ['🔥','Efeito Joule','Parte da energia elétrica vira <b>calor</b>. É o princípio do <b>chuveiro</b> e do <b>ferro</b>, que usam um <b>resistor</b>.'],
+ ['💡','Lâmpadas','<b>Incandescente</b> (filamento de tungstênio, gasta muito). <b>Fluorescente</b> (gás, tem mercúrio). <b>LED</b> (semicondutor, a mais eficiente e durável).'],
+ ['🔌','Potência (W)','Mede a <b>rapidez</b> da transformação de energia. Unidade: <b>watt (W)</b>.'],
+ ['📊','Consumo (kWh)','<b>consumo = potência × tempo</b>. Em kWh. Lembre: <b>1 kWh = 1 000 Wh</b>.'],
+ ['🏷️','Etiqueta INMETRO','Vai de <b>A (mais eficiente)</b> a <b>G (menos)</b>. Um A economiza até 15% sobre um E.'],
+ ['🚦','Bandeiras','<b>Verde</b> sem custo extra · <b>amarela</b> custa mais · <b>vermelha</b> custa ainda mais.'],
+ ['🤝','Tarifa Social','Desconto de <b>10% a 65%</b> na conta de luz para famílias de baixa renda. Reduz a desigualdade social.'],
+ ['🔋','Tensão / ddp (V)','A <b>força</b> que organiza os elétrons. Unidade: <b>volt (V)</b>. Tomada: 110 V ou 220 V.'],
+ ['🧲','Resistência (Ω)','Dificuldade dos elétrons se moverem. Unidade: <b>ohm (Ω)</b>. Depende de <b>material, comprimento e espessura</b>.'],
+ ['🫀','Corrente no corpo','Efeitos: <b>luminoso, químico, térmico e fisiológico</b>. Perigo depende da intensidade (mA) e do tempo. Desfibrilador e fisioterapia usam corrente com segurança.'],
+ ['🛠️','Cuidados','Não sobrecarregar tomada, não empinar pipa perto da rede, desligar a chave geral para trocar lâmpada, chamar eletricista.']
+];
+
+function carregar(){
+  var raw=LS.get(CHAVE); if(!raw)return;
+  try{var d=JSON.parse(raw);estado.flip=d.flip||{};estado.quando=d.quando||null;}catch(e){}
+}
+function salvar(){estado.quando=new Date().toISOString();LS.set(CHAVE,JSON.stringify(estado));mostrarSalvo();}
+function mostrarSalvo(){
+  var el=document.getElementById('saveInfo');
+  if(!estado.quando){el.textContent='Nada salvo ainda.';return;}
+  var d=new Date(estado.quando),p=function(n){return n<10?'0'+n:''+n;};
+  el.textContent='Último salvamento: '+p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' às '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function render(){
+  var h='';
+  for(var i=0;i<CARDS.length;i++){
+    var c=CARDS[i],on=estado.flip['c'+i]?' on':'';
+    h+='<div class="flip'+on+'" onclick="virar('+i+')"><div class="inner">'+
+       '<div class="face front"><div class="ic">'+c[0]+'</div><div class="t">'+c[1]+'</div><div class="h">clique para virar 🔄</div></div>'+
+       '<div class="face back">'+c[2]+'</div>'+
+       '</div></div>';
+  }
+  document.getElementById('cards').innerHTML=h;
+}
+function virar(i){
+  estado.flip['c'+i]=!estado.flip['c'+i];salvar();
+  var el=document.getElementsByClassName('flip')[i];
+  if(el)el.classList.toggle('on');
+}
+function abrir(id){document.getElementById(id).classList.add('show');}
+function fechar(id){document.getElementById(id).classList.remove('show');}
+function aviso(t,x){document.getElementById('avTtl').textContent=t;document.getElementById('avTxt').textContent=x;abrir('mAviso');}
+function abrirZerar(){abrir('mZerar');}
+function abrirImport(){document.getElementById('impTxt').value='';abrir('mImport');}
+function zerarTudo(){LS.del(CHAVE);estado={flip:{},quando:null};fechar('mZerar');mostrarSalvo();render();}
+function exportar(){document.getElementById('expTxt').value=JSON.stringify(estado);abrir('mExport');var t=document.getElementById('expTxt');t.focus();t.select();}
+function importar(){
+  try{var d=JSON.parse(document.getElementById('impTxt').value.trim());
+    estado.flip=d.flip||{};salvar();fechar('mImport');render();
+    aviso('Tudo certo!','Registro importado com sucesso.');
+  }catch(e){fechar('mImport');aviso('Não deu certo','O texto colado não parece válido. Copie de novo, inteirinho.');}
+}
+carregar();mostrarSalvo();render();
+</script>
+</body>
+</html>
