@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado — Central de Energia | Ciências 8º ano</title>
+<style>
+:root{
+  --bg:#171c20; --panel:#212930; --panel2:#2c353d; --line:#3b4650;
+  --gold:#f4c11f; --teal:#37b3c4; --lime:#a8d420;
+  --red:#e0533f; --green:#5cb87f; --text:#eef2f4; --muted:#a2b1bb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:linear-gradient(rgba(224,83,63,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(224,83,63,.05) 1px,transparent 1px);
+  background-size:42px 42px;color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;font-size:17px;line-height:1.7;padding-bottom:80px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(135deg,#2a120c,#7a2318);border-bottom:8px solid var(--red);padding:34px 18px 30px;text-align:center;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.10) 2px,transparent 2px);background-size:26px 26px;opacity:.5}
+header.top .inner{position:relative;z-index:2}
+.tag{display:inline-block;background:#2a0d08;color:#ffbcb2;border:2px solid var(--red);padding:5px 14px;border-radius:4px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+header.top h1{font-size:32px;line-height:1.2;letter-spacing:1px;text-transform:uppercase;text-shadow:2px 3px 0 rgba(0,0,0,.35)}
+header.top p{margin-top:10px;font-size:16px}
+.navbar{background:var(--panel);border-bottom:3px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:12px;position:sticky;top:0;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.navbar a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px;padding:8px 14px;border-radius:6px;border:2px solid transparent}
+.navbar a:hover{color:var(--text);background:var(--panel2)}
+.navbar a.on{background:var(--red);color:#fff;border-color:#ffbcb2}
+.savebar{background:var(--panel2);border:2px solid var(--line);border-radius:10px;margin:20px auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.savebar .st{font-size:13px;color:var(--muted)}
+.savebar .st b{color:var(--teal)}
+.btn{border:none;border-radius:7px;padding:9px 15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s,filter .12s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-gold{background:var(--gold);color:#2a1c05}
+.btn-teal{background:var(--teal);color:#052024}
+.btn-red{background:var(--red);color:#fff}
+.btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--line)}
+.btn-big{padding:16px 34px;font-size:18px;border-radius:9px}
+.progress-shell{background:var(--panel);border:2px solid var(--line);border-radius:999px;height:20px;overflow:hidden;margin:8px 0 4px}
+.progress-fill{height:100%;width:0;background:var(--red);transition:width .4s}
+.progress-lbl{font-size:13px;color:var(--muted);text-align:center;margin-bottom:22px}
+.intro{background:var(--panel);border:2px solid var(--line);border-left:8px solid var(--red);border-radius:10px;padding:20px;margin-bottom:26px}
+.intro h2{font-size:20px;color:#ffbcb2;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.intro ul{margin:10px 0 0 22px}
+.q{background:var(--panel);border:2px solid var(--line);border-radius:12px;margin-bottom:20px;overflow:hidden}
+.q .head{background:var(--panel2);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;border-bottom:2px solid var(--line);flex-wrap:wrap}
+.num{background:var(--red);color:#fff;width:34px;height:34px;flex:0 0 34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;transform:rotate(-4deg);border:2px solid #ffbcb2}
+.q .head .txt{font-weight:700;font-size:16px;flex:1;min-width:200px}
+.badge{font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:4px;align-self:center}
+.b-mc{background:var(--teal);color:#052024}
+.b-som{background:var(--gold);color:#2a1c05}
+.b-rom{background:var(--lime);color:#1a2405}
+.b-dis{background:var(--red);color:#fff}
+.alts{padding:14px 18px}
+.afirm{background:#101519;border:2px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:15px}
+.afirm div{margin-bottom:6px}
+.afirm div:last-child{margin-bottom:0}
+.afirm b{color:var(--gold)}
+.alt{display:flex;gap:10px;align-items:flex-start;background:#101519;border:2px solid var(--line);border-radius:8px;padding:11px 13px;margin-bottom:9px;cursor:pointer;transition:border-color .15s,background .15s}
+.alt:hover{border-color:var(--red)}
+.alt.sel{border-color:var(--gold);background:#2a2408}
+.alt .let{background:var(--panel2);color:var(--text);width:26px;height:26px;flex:0 0 26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.alt.sel .let{background:var(--gold);color:#2a1c05}
+.alt.certa{border-color:var(--green);background:#12301f}
+.alt.certa .let{background:var(--green);color:#0d1f16}
+.alt.errada{border-color:#4a5a6b;background:#1a222c;opacity:.85}
+.expl{display:none;font-size:14px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--muted)}
+.gab .expl{display:block}
+.gab .alt.certa .expl{color:#a8e6c4}
+.gab .alt{cursor:default}
+.selo{display:none;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-left:auto;padding:2px 8px;border-radius:4px}
+.gab .alt.certa .selo{display:inline-block;background:var(--green);color:#0d1f16}
+.gab .alt.errada .selo{display:inline-block;background:#3c4a59;color:#c3d1dd}
+.somin{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.somin input{width:120px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:11px;font-size:20px;font-weight:800;text-align:center;font-family:"Courier New",monospace}
+.somin input:focus{outline:none;border-color:var(--gold)}
+.somin .lb{font-size:14px;color:var(--muted)}
+.dis textarea{width:100%;min-height:130px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:8px;padding:12px;font-family:inherit;font-size:16px;resize:vertical}
+.dis textarea:focus{outline:none;border-color:var(--gold)}
+.gabbox{display:none;background:#0f2b20;border:2px solid var(--green);border-radius:10px;padding:14px 16px;margin-top:12px;font-size:15px}
+.gab .gabbox{display:block}
+.gabbox .t{color:#a6ecc6;font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:13px;margin-bottom:8px}
+.gabbox .vf{margin-bottom:5px}
+.gabbox .vf b.v{color:#a6ecc6}
+.gabbox .vf b.f{color:#ffbcb2}
+.gabbox.model{background:#2a2408;border-color:var(--gold)}
+.gabbox.model .t{color:var(--gold)}
+.result{display:none;background:var(--panel);border:3px solid var(--red);border-radius:14px;padding:26px;text-align:center;margin:26px 0}
+.result.show{display:block}
+.result h2{font-size:26px;color:#ffbcb2;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.score{font-size:46px;font-weight:900;color:var(--lime);margin:10px 0}
+.codigo{background:#0f2b20;border:3px dashed var(--green);border-radius:10px;padding:18px;margin:18px 0}
+.codigo .lbl{font-size:13px;color:#a6ecc6;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.codigo .cod{font-size:34px;font-weight:900;letter-spacing:4px;color:#fff;font-family:"Courier New",monospace}
+.codigo .obs{font-size:13px;color:var(--muted);margin-top:8px}
+.unlock{background:var(--panel2);border:2px solid var(--line);border-radius:10px;padding:18px;margin:22px 0}
+.unlock h3{font-size:17px;color:var(--gold);margin-bottom:8px}
+.unlock input{width:190px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:"Courier New",monospace;font-size:18px;text-transform:uppercase;letter-spacing:2px;text-align:center}
+.unlock input:focus{outline:none;border-color:var(--gold)}
+.hidden{display:none}
+.footnav{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+.footnav a{background:var(--gold);color:#2a1c05;text-decoration:none;font-weight:800;padding:14px 24px;border-radius:9px;font-size:16px;border:3px solid #b8901a}
+.footnav a.alt2{background:var(--panel2);color:var(--text);border-color:var(--line)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(6,10,12,.82);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:3px solid var(--gold);border-radius:12px;max-width:440px;width:100%;padding:24px}
+.modal h3{color:var(--gold);margin-bottom:12px;font-size:20px}
+.modal p{margin-bottom:18px;font-size:15px}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.modal textarea{width:100%;height:110px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:monospace;font-size:12px;margin-bottom:14px}
+@media(max-width:600px){header.top h1{font-size:24px}body{font-size:16px}.alts{padding:12px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="tag">⚡ Central de Energia · Turno Final</div>
+    <h1>📝 Simulado Final</h1>
+    <p>Ciências · 8º ano · 26 questões no estilo da prova</p>
+    <p style="font-size:14px;opacity:.9">Prova: 25/08/2026 · Colégio São José</p>
+  </div>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">🏠 Início</a>
+  <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+  <a href="quiz.html">🎯 Quiz</a>
+  <a href="resumo.html">🗺️ Resumo</a>
+  <a href="simulado.html" class="on">📝 Simulado</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="savebar">
+    <div class="st">💾 Suas respostas são salvas sozinhas. <b id="saveInfo">Nada salvo ainda.</b></div>
+    <div>
+      <button class="btn btn-teal" onclick="exportar()">📥 Exportar</button>
+      <button class="btn btn-gold" onclick="abrirImport()">📤 Importar</button>
+      <button class="btn btn-red" onclick="abrirZerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <div class="progress-shell"><div class="progress-fill" id="pbar"></div></div>
+  <div class="progress-lbl" id="plbl">0 de 26 respondidas</div>
+
+  <div class="intro">
+    <h2>🔋 Turno final — como funciona</h2>
+    <ul>
+      <li><b>26 questões</b> misturando os tipos que a prova costuma usar:</li>
+      <li><span class="badge b-mc">múltipla escolha</span> 20 questões (5 delas são de cálculo)</li>
+      <li><span class="badge b-som">somatório</span> 2 questões — some os números das afirmativas <b>corretas</b> e escreva o total</li>
+      <li><span class="badge b-rom">afirmativas I–IV</span> 3 questões</li>
+      <li><span class="badge b-dis">discursiva</span> 1 questão — escreva a resposta; um adulto corrige com a resposta-modelo</li>
+      <li>A nota automática vale sobre <b>25 questões</b> (a discursiva é corrigida à parte).</li>
+      <li>No fim você recebe o código <b>SIM-XX-YY</b>, que libera o gabarito comentado.</li>
+    </ul>
+  </div>
+
+  <div id="sim"></div>
+
+  <div style="text-align:center;margin:26px 0">
+    <button class="btn btn-red btn-big" id="btnFim" onclick="finalizar()" disabled>🏁 Entregar simulado</button>
+    <div class="progress-lbl" id="fimHint" style="margin-top:10px">Responda as 26 questões para liberar.</div>
+  </div>
+
+  <div class="result" id="result">
+    <h2>Simulado entregue!</h2>
+    <div class="score" id="score">0 / 25</div>
+    <div id="msg"></div>
+    <div class="codigo">
+      <div class="lbl">Código de liberação</div>
+      <div class="cod" id="cod">SIM-00-XX</div>
+      <div class="obs">Mostre este código para um adulto liberar o gabarito comentado + a resposta-modelo da discursiva.</div>
+    </div>
+    <button class="btn btn-ghost" onclick="refazer()">🔄 Refazer o simulado</button>
+  </div>
+
+  <div class="unlock hidden" id="unlock">
+    <h3>🔐 Área do adulto — liberar gabarito comentado</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Digite o código que apareceu na tela do jovem aprendiz:</p>
+    <input id="codIn" maxlength="9" placeholder="SIM-00-XX">
+    <button class="btn btn-gold" onclick="liberar()">Liberar</button>
+    <div id="unlockMsg" style="margin-top:10px;font-size:14px"></div>
+  </div>
+
+  <div class="footnav">
+    <a href="index.html">🏠 Voltar ao início</a>
+    <a href="resumo.html" class="alt2">← 🗺️ Resumo</a>
+    <a href="leitura-guiada.html" class="alt2">📖 Leitura Guiada</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="mZerar"><div class="modal">
+  <h3>Zerar tudo?</h3><p>Isso apaga suas respostas, sua nota e o código deste Simulado.</p>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mZerar')">Cancelar</button>
+  <button class="btn btn-red" onclick="zerarTudo()">Sim, apagar</button></div>
+</div></div>
+<div class="modal-bg" id="mImport"><div class="modal">
+  <h3>Importar respostas</h3><p>Cole abaixo o texto exportado antes:</p>
+  <textarea id="impTxt"></textarea>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mImport')">Cancelar</button>
+  <button class="btn btn-teal" onclick="importar()">Importar</button></div>
+</div></div>
+<div class="modal-bg" id="mExport"><div class="modal">
+  <h3>Exportar respostas</h3><p>Copie tudo e guarde num bloco de notas:</p>
+  <textarea id="expTxt" readonly></textarea>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mExport')">Fechar</button></div>
+</div></div>
+<div class="modal-bg" id="mAviso"><div class="modal">
+  <h3 id="avTtl">Aviso</h3><p id="avTxt"></p>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mAviso')">Ok</button></div>
+</div></div>
+
+<script>
+var MEM={};
+var LS={
+  get:function(k){try{return localStorage.getItem(k);}catch(e){return MEM[k]||null;}},
+  set:function(k,v){try{localStorage.setItem(k,v);}catch(e){MEM[k]=v;}},
+  del:function(k){try{localStorage.removeItem(k);}catch(e){delete MEM[k];}}
+};
+var CHAVE='cie8sj_elet_simulado_v1';
+var estado={resp:{},fim:false,cod:null,acertos:0,gab:false,quando:null};
+
+/* tipo: mc | rom | som | dis ; "c" guarda o ID (conteúdo) da correta, nunca a letra. */
+var Q=[
+{tipo:'mc',t:'O que é, corretamente, a corrente elétrica?',
+ a:[{id:'q1a',x:'A quantidade de calor guardada dentro de um fio.',e:'Calor é uma consequência (efeito Joule), não a definição de corrente.'},
+    {id:'q1b',x:'O movimento ordenado dos elétrons ao longo de um fio condutor ligado a uma fonte de energia.',e:'Correto. Os elétrons passam a se mover de forma organizada quando ligamos um condutor a uma fonte.'},
+    {id:'q1c',x:'O movimento caótico dos elétrons ao redor do núcleo dos átomos.',e:'Esse é o movimento normal, quando NÃO há corrente. A corrente é o movimento ordenado.'},
+    {id:'q1d',x:'A força que a pilha faz para impedir a passagem de elétrons.',e:'A fonte fornece força para empurrar os elétrons, não para impedi-los.'}],c:'q1b'},
+
+{tipo:'mc',t:'No Sistema Internacional de Unidades (SI), a corrente elétrica é medida em:',
+ a:[{id:'q2a',x:'volt (V), a mesma unidade da tensão.',e:'Volt mede a tensão, não a corrente.'},
+    {id:'q2b',x:'watt (W), a mesma unidade da potência.',e:'Watt mede a potência.'},
+    {id:'q2c',x:'ohm (Ω), a mesma unidade da resistência.',e:'Ohm mede a resistência.'},
+    {id:'q2d',x:'ampère (A).',e:'Correto. A corrente elétrica é medida em ampère (A).'}],c:'q2d'},
+
+{tipo:'rom',t:'Analise as afirmativas sobre condutores e isolantes:',
+ af:['<b>I.</b> Os metais, a água do mar, o corpo humano e a grafita são bons condutores.',
+     '<b>II.</b> A borracha, o vidro e o plástico são exemplos de isolantes.',
+     '<b>III.</b> A água destilada é um ótimo condutor de eletricidade.',
+     '<b>IV.</b> Os semicondutores são usados na fabricação de microprocessadores.'],
+ a:[{id:'q3a',x:'Apenas I e III estão corretas.',e:'A III é falsa: a água destilada é MÁ condutora.'},
+    {id:'q3b',x:'Apenas II e IV estão corretas.',e:'A I também está correta, e a III é a única falsa.'},
+    {id:'q3c',x:'Apenas I, II e IV estão corretas.',e:'Correto. Só a III é falsa — a água destilada (pura) é má condutora.'},
+    {id:'q3d',x:'I, II, III e IV estão corretas.',e:'A III é falsa: a água destilada não conduz bem; quem conduz na água são os sais.'}],c:'q3c',
+ vf:['<b class="v">I – VERDADEIRA:</b> São os bons condutores citados no livro.',
+     '<b class="v">II – VERDADEIRA:</b> São exemplos de isolantes (maus condutores).',
+     '<b class="f">III – FALSA:</b> A água destilada é pura e má condutora. A água do mar conduz por causa dos sais.',
+     '<b class="v">IV – VERDADEIRA:</b> Os semicondutores são a base dos microprocessadores.']},
+
+{tipo:'mc',t:'Sobre a condução de eletricidade na água, é correto afirmar que:',
+ a:[{id:'q4a',x:'a água destilada é pura e má condutora; já a água do mar conduz por causa dos sais dissolvidos.',e:'Correto. Quem conduz na água são os sais dissolvidos.'},
+    {id:'q4b',x:'as duas conduzem eletricidade exatamente da mesma forma.',e:'Não: a do mar conduz bem, a destilada é má condutora.'},
+    {id:'q4c',x:'a água destilada conduz melhor justamente por ser pura.',e:'É o contrário: por ser pura (sem sais), ela é má condutora.'},
+    {id:'q4d',x:'nenhuma das duas conduz eletricidade.',e:'A água do mar conduz eletricidade.'}],c:'q4a'},
+
+{tipo:'mc',t:'Os semicondutores são importantes na tecnologia porque:',
+ a:[{id:'q5a',x:'são os melhores isolantes que existem.',e:'Não são isolantes; têm condutividade intermediária.'},
+    {id:'q5b',x:'têm condutividade intermediária e são a base dos microprocessadores.',e:'Correto. Ficam entre os bons e os maus condutores e formam os microprocessadores.'},
+    {id:'q5c',x:'conduzem sem perda de energia em qualquer temperatura.',e:'Isso descreve os supercondutores (e só a temperaturas muito baixas).'},
+    {id:'q5d',x:'só conduzem quando estão dentro da água.',e:'Não têm relação com água.'}],c:'q5b'},
+
+{tipo:'mc',t:'Todo circuito elétrico é formado por três elementos. São eles:',
+ a:[{id:'q6a',x:'um resistor, um gás e um filamento.',e:'Esses são componentes de alguns aparelhos, não os três elementos de um circuito.'},
+    {id:'q6b',x:'volt, ampère e watt.',e:'São unidades de medida, não elementos físicos.'},
+    {id:'q6c',x:'apenas dois fios e uma pilha.',e:'Faltam o aparelho e a fonte descritos corretamente.'},
+    {id:'q6d',x:'um aparelho, uma fonte de energia e fios de ligação.',e:'Correto. É o trio que todo circuito precisa ter.'}],c:'q6d'},
+
+{tipo:'som',t:'Sobre circuitos elétricos, some os números das afirmativas CORRETAS:',
+ af:['<b>01.</b> Todo circuito elétrico é formado por um aparelho, uma fonte de energia e fios de ligação.',
+     '<b>02.</b> No circuito em série, os elementos ficam ligados em sequência, um depois do outro.',
+     '<b>04.</b> No circuito em paralelo, os elementos ficam dispostos de forma que todos recebam a mesma tensão.',
+     '<b>08.</b> Um circuito aberto, com o interruptor desligado, permite a passagem da corrente.',
+     '<b>16.</b> Numa instalação residencial, os aparelhos costumam ser ligados em paralelo.'],
+ soma:23,
+ vf:['<b class="v">01 – CORRETA.</b> Aparelho + fonte + fios.',
+     '<b class="v">02 – CORRETA.</b> Série = em sequência.',
+     '<b class="v">04 – CORRETA.</b> Paralelo = todos com a mesma tensão.',
+     '<b class="f">08 – INCORRETA.</b> Circuito aberto (desligado) NÃO permite a passagem de corrente. Só o circuito fechado permite.',
+     '<b class="v">16 – CORRETA.</b> Por isso um aparelho não depende do outro.',
+     '<b>SOMA = 01 + 02 + 04 + 16 = 23</b>']},
+
+{tipo:'mc',t:'Sobre circuito aberto e fechado, é correto dizer que:',
+ a:[{id:'q8a',x:'fechado significa desligado, sem passagem de corrente.',e:'Fechado é o ligado, COM corrente.'},
+    {id:'q8b',x:'aberto significa ligado, com passagem de corrente.',e:'Aberto é o desligado, SEM corrente.'},
+    {id:'q8c',x:'aberto = interruptor desligado (sem corrente); fechado = interruptor ligado (com corrente).',e:'Correto. É o interruptor que decide.'},
+    {id:'q8d',x:'aberto e fechado significam exatamente a mesma coisa.',e:'São situações opostas.'}],c:'q8c'},
+
+{tipo:'mc',t:'O efeito Joule é:',
+ a:[{id:'q9a',x:'a transformação de parte da energia elétrica em calor quando a corrente passa por um material.',e:'Correto. É o princípio do chuveiro e do ferro elétrico.'},
+    {id:'q9b',x:'a emissão de luz quando a corrente atravessa um gás.',e:'Isso é o efeito luminoso.'},
+    {id:'q9c',x:'o desligamento automático de um aparelho.',e:'Não tem relação com desligar aparelhos.'},
+    {id:'q9d',x:'a transformação de calor em elétrons.',e:'Essa transformação não existe.'}],c:'q9a'},
+
+{tipo:'mc',t:'A função do resistor em um chuveiro é:',
+ a:[{id:'q10a',x:'medir a tensão da rede elétrica.',e:'Medir tensão é função de um voltímetro.'},
+    {id:'q10b',x:'resistir à passagem da corrente e ampliar a perda de energia como calor, aquecendo a água.',e:'Correto. É o resistor que esquenta a água que passa por ele.'},
+    {id:'q10c',x:'transformar a água em eletricidade.',e:'Não há transformação de água em eletricidade.'},
+    {id:'q10d',x:'impedir totalmente a passagem de corrente.',e:'Ele resiste e gera calor, não impede a corrente.'}],c:'q10b'},
+
+{tipo:'rom',t:'Analise as afirmativas sobre os tipos de lâmpada:',
+ af:['<b>I.</b> A lâmpada incandescente usa um filamento de tungstênio e desperdiça muita energia como calor.',
+     '<b>II.</b> A lâmpada fluorescente emite luz quando a corrente passa por um gás e contém mercúrio.',
+     '<b>III.</b> A lâmpada de LED é feita de material semicondutor e é a mais eficiente das três.',
+     '<b>IV.</b> A lâmpada incandescente é a mais econômica e moderna das três.'],
+ a:[{id:'q11a',x:'Apenas I e IV estão corretas.',e:'A IV é falsa e a II e a III também estão corretas.'},
+    {id:'q11b',x:'Apenas II e III estão corretas.',e:'A I também está correta; só a IV é falsa.'},
+    {id:'q11c',x:'Apenas I e II estão corretas.',e:'A III também está correta; a única falsa é a IV.'},
+    {id:'q11d',x:'Apenas I, II e III estão corretas.',e:'Correto. Só a IV é falsa — a incandescente é a menos eficiente e a mais antiga.'}],c:'q11d',
+ vf:['<b class="v">I – VERDADEIRA:</b> Filamento de tungstênio, muita perda como calor.',
+     '<b class="v">II – VERDADEIRA:</b> Luz por gás, contém mercúrio.',
+     '<b class="v">III – VERDADEIRA:</b> LED de semicondutor é a mais eficiente e durável.',
+     '<b class="f">IV – FALSA:</b> A incandescente é a menos eficiente e a mais antiga, não a mais econômica e moderna.']},
+
+{tipo:'mc',t:'Entre os tipos de lâmpada, a mais eficiente e durável é a:',
+ a:[{id:'q12a',x:'incandescente, por ser a mais moderna.',e:'É a mais antiga e menos eficiente.'},
+    {id:'q12b',x:'fluorescente, por não conter mercúrio.',e:'A fluorescente contém mercúrio e perde para o LED em eficiência.'},
+    {id:'q12c',x:'de LED, que converte a maior parte da energia em luz, dura muito e não contém mercúrio.',e:'Correto. Usa material semicondutor e é a mais econômica e segura.'},
+    {id:'q12d',x:'incandescente, por causa do filamento de tungstênio.',e:'O filamento de tungstênio aquece e desperdiça energia.'}],c:'q12c'},
+
+{tipo:'mc',t:'A grandeza que mede a rapidez com que um aparelho transforma energia elétrica em outras formas é:',
+ a:[{id:'q13a',x:'a potência, medida em watt (W).',e:'Correto. Potência = rapidez da transformação, em watt (W).'},
+    {id:'q13b',x:'a corrente, medida em ampère (A).',e:'Corrente é o movimento de elétrons, medido em ampère.'},
+    {id:'q13c',x:'a resistência, medida em ohm (Ω).',e:'Resistência é a dificuldade dos elétrons se moverem.'},
+    {id:'q13d',x:'a tensão, medida em volt (V).',e:'Tensão é a diferença de potencial, medida em volt.'}],c:'q13a'},
+
+{tipo:'mc',t:'Sobre o consumo de energia elétrica, é correto afirmar que:',
+ a:[{id:'q14a',x:'consumo = potência ÷ tempo, e 1 kWh = 100 Wh.',e:'A fórmula é multiplicação, e 1 kWh = 1 000 Wh.'},
+    {id:'q14b',x:'consumo = potência × tempo, e 1 kWh = 1 000 Wh.',e:'Correto. Multiplique a potência (kW) pelo tempo (h) e lembre que 1 kWh = 1 000 Wh.'},
+    {id:'q14c',x:'o consumo é medido em watt (W).',e:'Watt mede a potência. O consumo é em Wh ou kWh.'},
+    {id:'q14d',x:'o tempo de uso não influencia o consumo.',e:'O tempo é essencial no cálculo do consumo.'}],c:'q14b'},
+
+{tipo:'mc',t:'Um chuveiro de 5 500 W é usado 20 minutos por dia durante 30 dias. Qual é o consumo mensal de energia?',
+ a:[{id:'q15a',x:'5,5 kWh',e:'5,5 kW é só a potência convertida. Falta multiplicar pelo tempo total.'},
+    {id:'q15b',x:'110 kWh',e:'Você multiplicou por um tempo maior. O tempo total correto é 10 h (20 min = 1/3 h × 30 dias).'},
+    {id:'q15c',x:'27,5 kWh',e:'Parece que usou 5 h de tempo. O correto é 10 h no mês.'},
+    {id:'q15d',x:'55 kWh',e:'Correto. 5500 W = 5,5 kW; 20 min = 1/3 h × 30 dias = 10 h; 5,5 × 10 = 55 kWh.'}],c:'q15d'},
+
+{tipo:'mc',t:'Um ventilador de 120 W fica ligado 8 horas por dia durante 25 dias. Qual é o consumo total de energia?',
+ a:[{id:'q16a',x:'24 kWh',e:'Correto. 120 W = 0,12 kW; tempo = 8 × 25 = 200 h; 0,12 × 200 = 24 kWh.'},
+    {id:'q16b',x:'2,4 kWh',e:'Ficou 10× menor — provavelmente esqueceu de multiplicar direito o tempo.'},
+    {id:'q16c',x:'96 kWh',e:'Você usou a potência sem converter para kW. Passe 120 W para 0,12 kW.'},
+    {id:'q16d',x:'30 kWh',e:'Não fecha com a conta 0,12 × 200 = 24 kWh.'}],c:'q16a'},
+
+{tipo:'mc',t:'Uma geladeira de 200 W funciona, em média, 12 horas por dia. Num mês de 30 dias, qual é o consumo de energia?',
+ a:[{id:'q17a',x:'24 kWh',e:'Muito baixo. O tempo total é 360 h, não 120 h.'},
+    {id:'q17b',x:'7,2 kWh',e:'Ficou 10× menor. Confira: 0,2 kW × 360 h.'},
+    {id:'q17c',x:'72 kWh',e:'Correto. 200 W = 0,2 kW; tempo = 12 × 30 = 360 h; 0,2 × 360 = 72 kWh.'},
+    {id:'q17d',x:'60 kWh',e:'Não fecha com a conta 0,2 × 360 = 72 kWh.'}],c:'q17c'},
+
+{tipo:'mc',t:'Uma televisão de 150 W fica ligada 5 horas por dia durante 30 dias. Se a tarifa de energia é R$ 0,90 por kWh, quanto será gasto com a TV no mês?',
+ a:[{id:'q18a',x:'R$ 13,50',e:'Você usou um consumo menor. O consumo correto é 22,5 kWh.'},
+    {id:'q18b',x:'R$ 20,25',e:'Correto. 150 W = 0,15 kW; tempo = 5 × 30 = 150 h; consumo = 0,15 × 150 = 22,5 kWh; custo = 22,5 × 0,90 = R$ 20,25.'},
+    {id:'q18c',x:'R$ 202,50',e:'Ficou 10× maior — provavelmente esqueceu de converter W para kW.'},
+    {id:'q18d',x:'R$ 25,00',e:'Não fecha com a conta 22,5 × 0,90 = R$ 20,25.'}],c:'q18b'},
+
+{tipo:'mc',t:'Um computador de 300 W é utilizado 6 horas por dia durante 20 dias. Qual é o consumo de energia elétrica?',
+ a:[{id:'q19a',x:'3,6 kWh',e:'Ficou 10× menor. Confira: 0,3 kW × 120 h.'},
+    {id:'q19b',x:'60 kWh',e:'Não fecha. O tempo total é 120 h e a potência 0,3 kW.'},
+    {id:'q19c',x:'18 kWh',e:'Parece que usou metade do tempo. O tempo total é 6 × 20 = 120 h.'},
+    {id:'q19d',x:'36 kWh',e:'Correto. 300 W = 0,3 kW; tempo = 6 × 20 = 120 h; 0,3 × 120 = 36 kWh.'}],c:'q19d'},
+
+{tipo:'mc',t:'Sobre a diferença de potencial (ddp) e a tensão elétrica, é correto afirmar que:',
+ a:[{id:'q20a',x:'a ddp é medida em volt (V), e a tensão da rede que chega às casas é de 110 V ou 220 V.',e:'Correto. A ddp (tensão) é a força que organiza os elétrons, medida em volt.'},
+    {id:'q20b',x:'a tensão é medida em ampère (A).',e:'Ampère mede a corrente, não a tensão.'},
+    {id:'q20c',x:'a tensão da rede elétrica das casas é sempre de 12 V.',e:'A rede que chega às casas tem 110 V ou 220 V.'},
+    {id:'q20d',x:'tensão e resistência são a mesma grandeza.',e:'São grandezas diferentes: tensão (V) e resistência (Ω).'}],c:'q20a'},
+
+{tipo:'mc',t:'Sobre a resistência elétrica, é correto afirmar que:',
+ a:[{id:'q21a',x:'depende somente do tipo de material.',e:'Depende de três fatores, não só do material.'},
+    {id:'q21b',x:'quanto maior a espessura do fio, maior a resistência.',e:'É o contrário: quanto maior a espessura, MENOR a resistência.'},
+    {id:'q21c',x:'depende do material, do comprimento e da espessura: mais comprido = mais resistência; mais grosso = menos resistência.',e:'Correto. São os três fatores, e comprimento e espessura puxam para lados contrários.'},
+    {id:'q21d',x:'é sempre a mesma para qualquer material.',e:'Não: o cobre tem baixa resistência e a porcelana, alta.'}],c:'q21c'},
+
+{tipo:'som',t:'Sobre etiqueta de eficiência, bandeiras tarifárias e Tarifa Social, some os números das afirmativas CORRETAS:',
+ af:['<b>01.</b> Na etiqueta do INMETRO, a letra A indica o aparelho mais eficiente.',
+     '<b>02.</b> A bandeira verde indica cobrança adicional na conta de luz.',
+     '<b>04.</b> A bandeira vermelha representa as condições mais críticas, com custo adicional maior.',
+     '<b>08.</b> A Tarifa Social oferece descontos na conta de luz para famílias de baixa renda.',
+     '<b>16.</b> O consumo de energia elétrica é medido em watt (W).'],
+ soma:13,
+ vf:['<b class="v">01 – CORRETA.</b> A é o mais eficiente (até 15% de economia sobre o E).',
+     '<b class="f">02 – INCORRETA.</b> A bandeira verde indica condições favoráveis, SEM cobrança adicional.',
+     '<b class="v">04 – CORRETA.</b> Vermelha = condições críticas, custo adicional maior.',
+     '<b class="v">08 – CORRETA.</b> Descontos de 10% a 65% para famílias de baixa renda.',
+     '<b class="f">16 – INCORRETA.</b> O consumo é medido em watt-hora (Wh) ou quilowatt-hora (kWh). Watt mede a potência.',
+     '<b>SOMA = 01 + 04 + 08 = 13</b>']},
+
+{tipo:'rom',t:'Analise as afirmativas sobre a corrente elétrica no corpo humano:',
+ af:['<b>I.</b> O efeito fisiológico ocorre quando a corrente atravessa um organismo vivo, atuando sobre os sistemas muscular e nervoso.',
+     '<b>II.</b> Correntes acima de 100 mA são inofensivas ao corpo humano.',
+     '<b>III.</b> O desfibrilador aplica choques controlados para restabelecer o ritmo cardíaco.',
+     '<b>IV.</b> A pele molhada diminui o risco de choque elétrico.'],
+ a:[{id:'q23a',x:'Apenas II e IV estão corretas.',e:'Essas duas são justamente as falsas.'},
+    {id:'q23b',x:'Apenas I e III estão corretas.',e:'Correto. II e IV são falsas.'},
+    {id:'q23c',x:'Apenas I, II e III estão corretas.',e:'A II é falsa: correntes acima de 100 mA são extremamente perigosas.'},
+    {id:'q23d',x:'Todas estão corretas.',e:'II e IV são falsas.'}],c:'q23b',
+ vf:['<b class="v">I – VERDADEIRA:</b> Atua sobre os sistemas muscular e nervoso.',
+     '<b class="f">II – FALSA:</b> Correntes acima de 100 mA são extremamente perigosas (podem causar parada cardíaca).',
+     '<b class="v">III – VERDADEIRA:</b> O desfibrilador restabelece o ritmo do coração.',
+     '<b class="f">IV – FALSA:</b> A pele molhada AUMENTA o risco, porque a água conduz eletricidade.']},
+
+{tipo:'mc',t:'Sobre os cuidados com as instalações elétricas, é correto afirmar que:',
+ a:[{id:'q24a',x:'ligar muitos aparelhos na mesma tomada é uma forma de economizar energia.',e:'Isso causa sobrecarga e é perigoso.'},
+    {id:'q24b',x:'empinar pipa perto da rede elétrica é uma prática segura.',e:'É perigoso: pode causar choque e acidentes.'},
+    {id:'q24c',x:'trocar uma lâmpada com a chave geral ligada é o recomendado.',e:'O correto é desligar a chave geral antes de trocar a lâmpada.'},
+    {id:'q24d',x:'deve-se desligar a chave geral para trocar uma lâmpada e chamar um eletricista para mexer na fiação.',e:'Correto. São cuidados essenciais para evitar acidentes.'}],c:'q24d'},
+
+{tipo:'mc',t:'No sistema de bandeiras tarifárias da conta de luz:',
+ a:[{id:'q25a',x:'a verde não tem cobrança adicional; a amarela tem cobrança adicional; a vermelha tem custo adicional maior.',e:'Correto. É o "semáforo" da conta de luz.'},
+    {id:'q25b',x:'a bandeira verde é a mais cara de todas.',e:'A verde é justamente a sem custo extra.'},
+    {id:'q25c',x:'a bandeira vermelha não gera nenhum custo adicional.',e:'A vermelha é a mais cara, com custo adicional maior.'},
+    {id:'q25d',x:'as três cores custam exatamente o mesmo.',e:'Cada cor representa um custo diferente.'}],c:'q25a'},
+
+{tipo:'dis',t:'Explique por que o corpo humano pode levar um choque elétrico e cite dois cuidados que ajudam a evitar acidentes com eletricidade em casa.',
+ modelo:'<b>Por que leva choque:</b> o corpo humano é um <b>bom condutor de eletricidade</b> — as cargas elétricas conseguem se mover por ele. Por isso, quando a corrente encontra um caminho pelo corpo, ela passa e provoca o choque. Dependendo da <b>intensidade</b> (medida em miliampères, mA) e da <b>duração</b>, o choque pode causar desde formigamento até contrações musculares, parada respiratória e parada cardíaca. A <b>pele molhada</b> piora tudo, porque a água conduz eletricidade e facilita ainda mais a passagem da corrente.<br><br><b>Dois cuidados (bastam dois):</b> não ligar vários aparelhos na mesma tomada (evitar sobrecarga); não empinar pipa perto da rede elétrica; desligar a chave geral antes de trocar uma lâmpada; cobrir as tomadas com protetores em casas com bebês; chamar um eletricista para mexer na parte interna das tomadas e na fiação.<br><br><i>Como corrigir:</i> considere boa a resposta que disser que <b>o corpo é bom condutor</b> (por isso a corrente passa e dá choque) <b>e</b> citar <b>pelo menos dois cuidados corretos</b> da lista acima.'}
+];
+function idCorreto(q){return q.c;}
+
+var LETRAS=['A','B','C','D'];
+var TOTAL=Q.length;
+var AUTO=0;
+for(var z=0;z<Q.length;z++){if(Q[z].tipo!=='dis')AUTO++;}
+
+function carregar(){
+  var r=LS.get(CHAVE); if(!r)return;
+  try{var d=JSON.parse(r);
+    estado.resp=d.resp||{};estado.fim=!!d.fim;estado.cod=d.cod||null;
+    estado.acertos=d.acertos||0;estado.gab=!!d.gab;estado.quando=d.quando||null;}catch(e){}
+}
+function salvar(){estado.quando=new Date().toISOString();LS.set(CHAVE,JSON.stringify(estado));mostrarSalvo();}
+function mostrarSalvo(){
+  var el=document.getElementById('saveInfo');
+  if(!estado.quando){el.textContent='Nada salvo ainda.';return;}
+  var d=new Date(estado.quando),p=function(n){return n<10?'0'+n:''+n;};
+  el.textContent='Último salvamento: '+p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' às '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function badge(t){
+  if(t==='som')return '<span class="badge b-som">somatório</span>';
+  if(t==='rom')return '<span class="badge b-rom">afirmativas I–IV</span>';
+  if(t==='dis')return '<span class="badge b-dis">discursiva</span>';
+  return '<span class="badge b-mc">múltipla escolha</span>';
+}
+function render(){
+  var h='';
+  for(var i=0;i<Q.length;i++){
+    var q=Q[i];
+    h+='<div class="q'+(estado.gab?' gab':'')+(q.tipo==='dis'?' dis':'')+'" id="q'+i+'">';
+    h+='<div class="head"><span class="num">'+(i+1)+'</span><span class="txt">'+q.t+'</span>'+badge(q.tipo)+'</div>';
+    h+='<div class="alts">';
+    if(q.af){
+      h+='<div class="afirm">';
+      for(var f=0;f<q.af.length;f++){h+='<div>'+q.af[f]+'</div>';}
+      h+='</div>';
+    }
+    if(q.tipo==='mc'||q.tipo==='rom'){
+      var cid=idCorreto(q);
+      for(var j=0;j<q.a.length;j++){
+        var al=q.a[j],cls='alt';
+        if(estado.resp['q'+i]===al.id)cls+=' sel';
+        if(estado.gab){cls=(al.id===cid)?'alt certa':'alt errada';}
+        h+='<div class="'+cls+'" onclick="escolher('+i+',\''+al.id+'\')">'+
+           '<span class="let">'+LETRAS[j]+'</span><span style="flex:1">'+al.x+
+           '<span class="expl">'+al.e+'</span></span>'+
+           '<span class="selo">'+(al.id===cid?'certa':'errada')+'</span></div>';
+      }
+    }else if(q.tipo==='som'){
+      var v=estado.resp['q'+i]||'';
+      h+='<div class="somin"><span class="lb">Soma das corretas:</span>'+
+         '<input type="number" min="0" max="99" id="som'+i+'" value="'+v+'" '+(estado.gab||estado.fim?'disabled':'')+' oninput="digitarSoma('+i+')" placeholder="00"></div>';
+    }else if(q.tipo==='dis'){
+      var t=(estado.resp['q'+i]||'').replace(/</g,'&lt;');
+      h+='<textarea id="dis'+i+'" '+(estado.gab||estado.fim?'disabled':'')+' oninput="digitarDis('+i+')" placeholder="Escreva sua resposta com suas palavras...">'+t+'</textarea>';
+    }
+    if(q.vf){
+      h+='<div class="gabbox"><div class="t">✅ Correção item por item</div>';
+      for(var w=0;w<q.vf.length;w++){h+='<div class="vf">'+q.vf[w]+'</div>';}
+      h+='</div>';
+    }
+    if(q.modelo){
+      h+='<div class="gabbox model"><div class="t">✍️ Resposta-modelo (para o adulto corrigir)</div>'+q.modelo+'</div>';
+    }
+    h+='</div></div>';
+  }
+  document.getElementById('sim').innerHTML=h;
+  atualizar();
+}
+function escolher(i,id){
+  if(estado.gab||estado.fim)return;
+  estado.resp['q'+i]=id;salvar();render();
+}
+var tm=null;
+function digitarSoma(i){
+  estado.resp['q'+i]=document.getElementById('som'+i).value;
+  if(tm)clearTimeout(tm);tm=setTimeout(function(){salvar();atualizar();},500);
+}
+function digitarDis(i){
+  estado.resp['q'+i]=document.getElementById('dis'+i).value;
+  if(tm)clearTimeout(tm);tm=setTimeout(function(){salvar();atualizar();},500);
+}
+function respondidas(){
+  var n=0;
+  for(var i=0;i<Q.length;i++){
+    var r=estado.resp['q'+i];
+    if(Q[i].tipo==='dis'){if(r&&r.trim().length>=10)n++;}
+    else if(Q[i].tipo==='som'){if(r!==undefined&&r!==null&&(''+r).trim()!=='')n++;}
+    else{if(r)n++;}
+  }
+  return n;
+}
+function atualizar(){
+  var n=respondidas();
+  document.getElementById('pbar').style.width=(n/TOTAL*100)+'%';
+  document.getElementById('plbl').textContent=n+' de '+TOTAL+' respondidas';
+  var b=document.getElementById('btnFim');
+  b.disabled=(n<TOTAL)||estado.fim;
+  document.getElementById('fimHint').textContent=estado.fim
+    ?'Simulado já entregue. Use "Refazer o simulado" para tentar de novo.'
+    :(n<TOTAL?'Responda as '+TOTAL+' questões para liberar (a discursiva precisa de pelo menos 10 letras).':'Tudo respondido! Pode entregar. 🏁');
+  if(estado.fim)mostrarResultado();
+}
+function letras2(){
+  var L='ABCDEFGHJKLMNPQRSTUVWXYZ';
+  return L.charAt(Math.floor(Math.random()*L.length))+L.charAt(Math.floor(Math.random()*L.length));
+}
+function finalizar(){
+  var ac=0;
+  for(var i=0;i<Q.length;i++){
+    var q=Q[i],r=estado.resp['q'+i];
+    if(q.tipo==='dis')continue;
+    if(q.tipo==='som'){if(parseInt(r,10)===q.soma)ac++;}
+    else{if(r===idCorreto(q))ac++;}
+  }
+  estado.acertos=ac;estado.fim=true;
+  if(!estado.cod){estado.cod='SIM-'+(ac<10?'0'+ac:''+ac)+'-'+letras2();}
+  salvar();render();
+  document.getElementById('unlock').classList.remove('hidden');
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function mostrarResultado(){
+  document.getElementById('result').classList.add('show');
+  document.getElementById('unlock').classList.remove('hidden');
+  document.getElementById('score').textContent=estado.acertos+' / '+AUTO;
+  document.getElementById('cod').textContent=estado.cod||'—';
+  var a=estado.acertos,m;
+  if(a>=22)m='🏆 Excelente! Você está pronto para a prova de 25/08.';
+  else if(a>=17)m='💪 Muito bom. Revise o Resumo nos pontos que escaparam e refaça.';
+  else if(a>=12)m='🧭 Metade do caminho. Volte na Leitura Guiada dos setores fracos antes de refazer.';
+  else m='📌 Vamos com calma: releia o Resumo inteiro, refaça o Quiz e depois volte aqui. Dá tempo!';
+  document.getElementById('msg').textContent=m+' (A discursiva é corrigida à parte, com a resposta-modelo.)';
+}
+function liberar(){
+  var v=(document.getElementById('codIn').value||'').trim().toUpperCase();
+  var el=document.getElementById('unlockMsg');
+  if(!estado.cod){el.innerHTML='<span style="color:var(--red)">Nenhum código foi gerado ainda — entregue o simulado primeiro.</span>';return;}
+  if(v===estado.cod){
+    estado.gab=true;salvar();render();
+    el.innerHTML='<span style="color:var(--green)">✅ Gabarito comentado liberado! Role a página para ver.</span>';
+  }else{
+    el.innerHTML='<span style="color:var(--red)">❌ Código incorreto. Confira as letras e os números.</span>';
+  }
+}
+function refazer(){
+  estado.resp={};estado.fim=false;estado.cod=null;estado.acertos=0;estado.gab=false;
+  salvar();
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('unlock').classList.add('hidden');
+  document.getElementById('unlockMsg').textContent='';
+  document.getElementById('codIn').value='';
+  render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function abrir(id){document.getElementById(id).classList.add('show');}
+function fechar(id){document.getElementById(id).classList.remove('show');}
+function aviso(t,x){document.getElementById('avTtl').textContent=t;document.getElementById('avTxt').textContent=x;abrir('mAviso');}
+function abrirZerar(){abrir('mZerar');}
+function abrirImport(){document.getElementById('impTxt').value='';abrir('mImport');}
+function zerarTudo(){
+  LS.del(CHAVE);
+  estado={resp:{},fim:false,cod:null,acertos:0,gab:false,quando:null};
+  fechar('mZerar');mostrarSalvo();
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('unlock').classList.add('hidden');
+  render();
+}
+function exportar(){document.getElementById('expTxt').value=JSON.stringify(estado);abrir('mExport');var t=document.getElementById('expTxt');t.focus();t.select();}
+function importar(){
+  try{
+    var d=JSON.parse(document.getElementById('impTxt').value.trim());
+    estado.resp=d.resp||{};estado.fim=!!d.fim;estado.cod=d.cod||null;
+    estado.acertos=d.acertos||0;estado.gab=!!d.gab;
+    salvar();fechar('mImport');render();
+    aviso('Tudo certo!','Respostas importadas com sucesso.');
+  }catch(e){fechar('mImport');aviso('Não deu certo','O texto colado não parece válido. Copie de novo, inteirinho.');}
+}
+carregar();mostrarSalvo();render();
+</script>
+</body>
+</html>
