@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Central de Energia | Ciências 8º ano</title>
+<style>
+:root{
+  --bg:#171c20; --panel:#212930; --panel2:#2c353d; --line:#3b4650;
+  --gold:#f4c11f; --teal:#37b3c4; --lime:#a8d420;
+  --red:#e0533f; --green:#5cb87f; --text:#eef2f4; --muted:#a2b1bb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:linear-gradient(rgba(55,179,196,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(55,179,196,.05) 1px,transparent 1px);
+  background-size:42px 42px;color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;font-size:17px;line-height:1.7;padding-bottom:80px;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+header.top{background:linear-gradient(135deg,#10262b,#1f6b78);border-bottom:6px solid var(--teal);padding:34px 18px 30px;text-align:center;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 2px,transparent 2px);background-size:26px 26px;opacity:.5}
+header.top .inner{position:relative;z-index:2}
+.tag{display:inline-block;background:#06222a;color:#a9ecf6;border:2px solid var(--teal);padding:5px 14px;border-radius:4px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+header.top h1{font-size:32px;line-height:1.2;letter-spacing:1px;text-transform:uppercase;text-shadow:2px 3px 0 rgba(0,0,0,.32)}
+header.top p{margin-top:10px;font-size:16px}
+.navbar{background:var(--panel);border-bottom:3px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:12px;position:sticky;top:0;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.navbar a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px;padding:8px 14px;border-radius:6px;border:2px solid transparent}
+.navbar a:hover{color:var(--text);background:var(--panel2)}
+.navbar a.on{background:var(--teal);color:#052024;border-color:#a9ecf6}
+.savebar{background:var(--panel2);border:2px solid var(--line);border-radius:10px;margin:20px auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.savebar .st{font-size:13px;color:var(--muted)}
+.savebar .st b{color:var(--teal)}
+.btn{border:none;border-radius:7px;padding:9px 15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s,filter .12s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-gold{background:var(--gold);color:#2a1c05}
+.btn-teal{background:var(--teal);color:#052024}
+.btn-red{background:var(--red);color:#fff}
+.btn-lime{background:var(--lime);color:#1a2405}
+.btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--line)}
+.btn-big{padding:15px 30px;font-size:17px;border-radius:9px}
+.progress-shell{background:var(--panel);border:2px solid var(--line);border-radius:999px;height:20px;overflow:hidden;margin:8px 0 4px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--lime));transition:width .4s}
+.progress-lbl{font-size:13px;color:var(--muted);text-align:center;margin-bottom:22px}
+.intro{background:var(--panel);border:2px solid var(--line);border-left:8px solid var(--teal);border-radius:10px;padding:20px;margin-bottom:26px}
+.intro h2{font-size:20px;color:#a9ecf6;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.intro ul{margin:10px 0 0 22px}
+.q{background:var(--panel);border:2px solid var(--line);border-radius:12px;margin-bottom:20px;overflow:hidden}
+.q .head{background:var(--panel2);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;border-bottom:2px solid var(--line)}
+.num{background:var(--teal);color:#052024;width:34px;height:34px;flex:0 0 34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;transform:rotate(-4deg)}
+.q .head .txt{font-weight:700;font-size:16px}
+.alts{padding:14px 18px}
+.alt{display:flex;gap:10px;align-items:flex-start;background:#101519;border:2px solid var(--line);border-radius:8px;padding:11px 13px;margin-bottom:9px;cursor:pointer;transition:border-color .15s,background .15s}
+.alt:hover{border-color:var(--teal)}
+.alt.sel{border-color:var(--gold);background:#2a2408}
+.alt .let{background:var(--panel2);color:var(--text);width:26px;height:26px;flex:0 0 26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.alt.sel .let{background:var(--gold);color:#2a1c05}
+.alt.certa{border-color:var(--green);background:#12301f}
+.alt.certa .let{background:var(--green);color:#0d1f16}
+.alt.errada{border-color:#4a5a6b;background:#1a222c;opacity:.85}
+.expl{display:none;font-size:14px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--muted)}
+.gab .expl{display:block}
+.gab .alt.certa .expl{color:#a8e6c4}
+.gab .alt{cursor:default}
+.selo{display:none;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-left:auto;padding:2px 8px;border-radius:4px}
+.gab .alt.certa .selo{display:inline-block;background:var(--green);color:#0d1f16}
+.gab .alt.errada .selo{display:inline-block;background:#3c4a59;color:#c3d1dd}
+.result{display:none;background:var(--panel);border:3px solid var(--teal);border-radius:14px;padding:26px;text-align:center;margin:26px 0}
+.result.show{display:block}
+.result h2{font-size:26px;color:#a9ecf6;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.score{font-size:46px;font-weight:900;color:var(--lime);margin:10px 0}
+.codigo{background:#0f2b20;border:3px dashed var(--green);border-radius:10px;padding:18px;margin:18px 0}
+.codigo .lbl{font-size:13px;color:#a6ecc6;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.codigo .cod{font-size:34px;font-weight:900;letter-spacing:4px;color:#fff;font-family:"Courier New",monospace}
+.codigo .obs{font-size:13px;color:var(--muted);margin-top:8px}
+.unlock{background:var(--panel2);border:2px solid var(--line);border-radius:10px;padding:18px;margin:22px 0}
+.unlock h3{font-size:17px;color:var(--gold);margin-bottom:8px}
+.unlock input{width:190px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:"Courier New",monospace;font-size:18px;text-transform:uppercase;letter-spacing:2px;text-align:center}
+.unlock input:focus{outline:none;border-color:var(--gold)}
+.hidden{display:none}
+.footnav{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+.footnav a{background:var(--gold);color:#2a1c05;text-decoration:none;font-weight:800;padding:14px 24px;border-radius:9px;font-size:16px;border:3px solid #b8901a}
+.footnav a.alt2{background:var(--panel2);color:var(--text);border-color:var(--line)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(6,10,12,.82);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:3px solid var(--gold);border-radius:12px;max-width:440px;width:100%;padding:24px}
+.modal h3{color:var(--gold);margin-bottom:12px;font-size:20px}
+.modal p{margin-bottom:18px;font-size:15px}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.modal textarea{width:100%;height:110px;background:#101519;color:var(--text);border:2px solid var(--line);border-radius:7px;padding:10px;font-family:monospace;font-size:12px;margin-bottom:14px}
+@media(max-width:600px){header.top h1{font-size:24px}body{font-size:16px}.alts{padding:12px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="tag">⚡ Central de Energia · Painel de Testes</div>
+    <h1>🎯 Quiz da Central</h1>
+    <p>Ciências · 8º ano · 15 questões objetivas · Eletricidade</p>
+    <p style="font-size:14px;opacity:.9">Prova: 25/08/2026 · Colégio São José</p>
+  </div>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">🏠 Início</a>
+  <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+  <a href="quiz.html" class="on">🎯 Quiz</a>
+  <a href="resumo.html">🗺️ Resumo</a>
+  <a href="simulado.html">📝 Simulado</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="savebar">
+    <div class="st">💾 Suas respostas são salvas sozinhas. <b id="saveInfo">Nada salvo ainda.</b></div>
+    <div>
+      <button class="btn btn-teal" onclick="exportar()">📥 Exportar</button>
+      <button class="btn btn-gold" onclick="abrirImport()">📤 Importar</button>
+      <button class="btn btn-red" onclick="abrirZerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <div class="progress-shell"><div class="progress-fill" id="pbar"></div></div>
+  <div class="progress-lbl" id="plbl">0 de 15 respondidas</div>
+
+  <div class="intro">
+    <h2>🔌 Regras da rodada</h2>
+    <ul>
+      <li>São <b>15 questões objetivas</b>, todas de múltipla escolha.</li>
+      <li>Responda todas e clique em <b>Finalizar rodada</b>.</li>
+      <li>Você recebe a nota e um <b>código de liberação</b> (MED-XX-YY).</li>
+      <li>Entregue o código a um adulto: <b>o gabarito comentado só abre com ele</b>.</li>
+      <li>Não vale colar 😄 — o gabarito explica cada alternativa errada também.</li>
+    </ul>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div style="text-align:center;margin:26px 0">
+    <button class="btn btn-lime btn-big" id="btnFim" onclick="finalizar()" disabled>🏁 Finalizar rodada</button>
+    <div class="progress-lbl" id="fimHint" style="margin-top:10px">Responda as 15 questões para liberar.</div>
+  </div>
+
+  <div class="result" id="result">
+    <h2>Rodada encerrada!</h2>
+    <div class="score" id="score">0 / 15</div>
+    <div id="msg"></div>
+    <div class="codigo">
+      <div class="lbl">Código de liberação</div>
+      <div class="cod" id="cod">MED-00-XX</div>
+      <div class="obs">Mostre este código para um adulto liberar o gabarito comentado.</div>
+    </div>
+    <button class="btn btn-ghost" onclick="refazer()">🔄 Refazer o quiz</button>
+  </div>
+
+  <div class="unlock hidden" id="unlock">
+    <h3>🔐 Área do adulto — liberar gabarito comentado</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Digite o código que apareceu na tela do jovem aprendiz:</p>
+    <input id="codIn" maxlength="9" placeholder="MED-00-XX">
+    <button class="btn btn-gold" onclick="liberar()">Liberar</button>
+    <div id="unlockMsg" style="margin-top:10px;font-size:14px"></div>
+  </div>
+
+  <div class="footnav">
+    <a href="resumo.html">Próximo material: 🗺️ Resumo →</a>
+    <a href="leitura-guiada.html" class="alt2">← 📖 Leitura Guiada</a>
+    <a href="index.html" class="alt2">🏠 Início</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="mZerar"><div class="modal">
+  <h3>Zerar tudo?</h3><p>Isso apaga suas respostas, sua nota e o código deste Quiz.</p>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mZerar')">Cancelar</button>
+  <button class="btn btn-red" onclick="zerarTudo()">Sim, apagar</button></div>
+</div></div>
+<div class="modal-bg" id="mImport"><div class="modal">
+  <h3>Importar respostas</h3><p>Cole abaixo o texto exportado antes:</p>
+  <textarea id="impTxt"></textarea>
+  <div class="acts"><button class="btn btn-ghost" onclick="fechar('mImport')">Cancelar</button>
+  <button class="btn btn-teal" onclick="importar()">Importar</button></div>
+</div></div>
+<div class="modal-bg" id="mExport"><div class="modal">
+  <h3>Exportar respostas</h3><p>Copie tudo e guarde num bloco de notas:</p>
+  <textarea id="expTxt" readonly></textarea>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mExport')">Fechar</button></div>
+</div></div>
+<div class="modal-bg" id="mAviso"><div class="modal">
+  <h3 id="avTtl">Aviso</h3><p id="avTxt"></p>
+  <div class="acts"><button class="btn btn-gold" onclick="fechar('mAviso')">Ok</button></div>
+</div></div>
+
+<script>
+var MEM={};
+var LS={
+  get:function(k){try{return localStorage.getItem(k);}catch(e){return MEM[k]||null;}},
+  set:function(k,v){try{localStorage.setItem(k,v);}catch(e){MEM[k]=v;}},
+  del:function(k){try{localStorage.removeItem(k);}catch(e){delete MEM[k];}}
+};
+var CHAVE='cie8sj_elet_quiz_v1';
+var estado={resp:{},fim:false,cod:null,acertos:0,gab:false,quando:null};
+
+/* "c" guarda o ID (texto) da alternativa correta, nunca a posição. */
+var Q=[
+{t:'O que é, corretamente, a corrente elétrica?',
+ a:[
+  {id:'a1',x:'O movimento desorganizado e caótico dos elétrons em torno dos átomos.',e:'Esse é o movimento normal dos elétrons quando NÃO há corrente. A corrente é justamente o contrário: movimento organizado.'},
+  {id:'a2',x:'A quantidade de calor que um fio consegue armazenar.',e:'Calor é consequência (efeito Joule), não a definição de corrente.'},
+  {id:'a3',x:'O movimento ordenado de elétrons ao longo de um fio condutor, ligado a uma fonte de energia.',e:'Correto. É o movimento ordenado dos elétrons, que acontece quando ligamos um condutor a uma fonte (pilha, bateria ou tomada).'},
+  {id:'a4',x:'A força que a tomada faz para desligar um aparelho.',e:'Corrente não é força de desligar; é o fluxo ordenado de elétrons enquanto o circuito está fechado.'}
+ ],c:'a3'},
+
+{t:'No Sistema Internacional (SI), a corrente elétrica é medida em:',
+ a:[
+  {id:'b1',x:'volt (V).',e:'Volt mede a TENSÃO (diferença de potencial), não a corrente.'},
+  {id:'b2',x:'ampère (A).',e:'Correto. Ampère (A) é a unidade da corrente elétrica.'},
+  {id:'b3',x:'watt (W).',e:'Watt mede a POTÊNCIA elétrica.'},
+  {id:'b4',x:'ohm (Ω).',e:'Ohm mede a RESISTÊNCIA elétrica.'}
+ ],c:'b2'},
+
+{t:'Assinale a alternativa que traz APENAS bons condutores de eletricidade:',
+ a:[
+  {id:'c1',x:'Borracha, vidro e plástico.',e:'Todos são isolantes (maus condutores).'},
+  {id:'c2',x:'Madeira seca, algodão e água destilada.',e:'Todos são maus condutores.'},
+  {id:'c3',x:'Vidro, metais e borracha.',e:'Metais conduzem, mas vidro e borracha são isolantes. A lista precisa ter SÓ bons condutores.'},
+  {id:'c4',x:'Metais, água do mar, corpo humano e grafita.',e:'Correto. Todos são citados como bons condutores no livro.'}
+ ],c:'c4'},
+
+{t:'Os materiais isolantes (maus condutores) recebem esse nome porque:',
+ a:[
+  {id:'d1',x:'as cargas elétricas não se movem com facilidade neles.',e:'Correto. Nos isolantes as cargas têm dificuldade de se mover — por isso borracha, vidro e plástico são isolantes.'},
+  {id:'d2',x:'as cargas elétricas se movem com grande liberdade neles.',e:'Isso descreve os BONS condutores, não os isolantes.'},
+  {id:'d3',x:'eles conduzem melhor que o cobre e a prata.',e:'Conduzir melhor que cobre e prata é característica dos SUPERCONDUTORES.'},
+  {id:'d4',x:'são usados na fabricação de microprocessadores.',e:'Quem é usado nos microprocessadores são os SEMICONDUTORES.'}
+ ],c:'d1'},
+
+{t:'Por que a água do mar conduz eletricidade, mas a água destilada é má condutora?',
+ a:[
+  {id:'e1',x:'Porque a água do mar é mais quente que a água destilada.',e:'A temperatura não é o motivo. O que importa é a presença de sais.'},
+  {id:'e2',x:'Porque a água destilada tem mais sais dissolvidos.',e:'É o contrário: a água destilada é pura, quase sem sais.'},
+  {id:'e3',x:'Porque a água do mar tem sais dissolvidos, que permitem o movimento das cargas; a destilada é pura.',e:'Correto. Quem conduz na água são os sais dissolvidos.'},
+  {id:'e4',x:'Porque a água do mar é um isolante e a destilada é condutora.',e:'Está invertido: a água do mar é boa condutora e a destilada, má condutora.'}
+ ],c:'e3'},
+
+{t:'Os semicondutores são muito importantes na tecnologia porque:',
+ a:[
+  {id:'f1',x:'conduzem perfeitamente, sem nenhuma perda de energia, em qualquer temperatura.',e:'Isso descreve os supercondutores (e só a temperaturas muito baixas).'},
+  {id:'f2',x:'têm condutividade intermediária e são a base dos microprocessadores da informática.',e:'Correto. Ficam entre os bons e os maus condutores e formam os "cérebros" de computadores e celulares.'},
+  {id:'f3',x:'são os melhores isolantes que existem.',e:'Não são isolantes; têm condutividade intermediária.'},
+  {id:'f4',x:'só funcionam dentro da água do mar.',e:'Não têm relação com água do mar.'}
+ ],c:'f2'},
+
+{t:'Sobre os supercondutores, é correto afirmar que eles:',
+ a:[
+  {id:'g1',x:'conduzem pior que a borracha.',e:'Conduzem muito bem — melhor até que o cobre e a prata.'},
+  {id:'g2',x:'são os mesmos materiais que os isolantes.',e:'São o oposto de isolantes.'},
+  {id:'g3',x:'funcionam somente em temperaturas muito altas.',e:'É o contrário: precisam de temperaturas muito BAIXAS (perto de −273,15 °C).'},
+  {id:'g4',x:'conduzem melhor que o cobre e a prata, quase sem perder energia, a temperaturas muito baixas.',e:'Correto. Aparecem em trens de levitação magnética e na ressonância magnética.'}
+ ],c:'g4'},
+
+{t:'Todo circuito elétrico é formado por três elementos. São eles:',
+ a:[
+  {id:'h1',x:'um aparelho, uma fonte de energia e fios de ligação.',e:'Correto. O aparelho funciona, a fonte fornece energia e os fios conectam tudo.'},
+  {id:'h2',x:'um resistor, um gás e um filamento.',e:'Esses são componentes de algumas lâmpadas/aparelhos, não os três elementos de um circuito.'},
+  {id:'h3',x:'apenas dois fios e uma tomada.',e:'Faltam o aparelho e a fonte; e não são só dois fios.'},
+  {id:'h4',x:'volt, ampère e watt.',e:'Essas são unidades de medida, não elementos físicos do circuito.'}
+ ],c:'h1'},
+
+{t:'Qual a diferença entre circuito em série e em paralelo?',
+ a:[
+  {id:'i1',x:'No série todos recebem a mesma tensão; no paralelo os elementos ficam em sequência.',e:'Está invertido.'},
+  {id:'i2',x:'Série e paralelo são exatamente a mesma coisa.',e:'São montagens diferentes.'},
+  {id:'i3',x:'No série os elementos ficam em sequência (um depois do outro); no paralelo eles ficam dispostos de forma que todos recebam a mesma tensão.',e:'Correto. Série = em fila; paralelo = cada um no seu caminho, com a mesma tensão.'},
+  {id:'i4',x:'O circuito em série só existe em pilhas e o paralelo só na tomada.',e:'Os dois tipos podem ser montados com pilha ou com a rede elétrica.'}
+ ],c:'i3'},
+
+{t:'Um circuito está ABERTO quando:',
+ a:[
+  {id:'j1',x:'o interruptor está ligado e a corrente passa normalmente.',e:'Isso descreve o circuito FECHADO.'},
+  {id:'j2',x:'o interruptor está desligado e não há passagem de corrente.',e:'Correto. Aberto = desligado = sem corrente.'},
+  {id:'j3',x:'a lâmpada está acesa.',e:'Lâmpada acesa indica circuito fechado, com corrente passando.'},
+  {id:'j4',x:'existem dois ou mais aparelhos ligados ao mesmo tempo.',e:'Isso é uma questão de série/paralelo, não de aberto/fechado.'}
+ ],c:'j2'},
+
+{t:'O efeito Joule pode ser descrito como:',
+ a:[
+  {id:'k1',x:'a transformação de calor em elétrons.',e:'Não existe essa transformação; o efeito Joule vai de energia elétrica para calor.'},
+  {id:'k2',x:'a emissão de luz ao atravessar um gás.',e:'Isso é o efeito luminoso, não o efeito Joule.'},
+  {id:'k3',x:'o desligamento automático de um aparelho.',e:'Não tem relação com desligar aparelhos.'},
+  {id:'k4',x:'a transformação de parte da energia elétrica em calor quando a corrente passa por um material.',e:'Correto. É o princípio do chuveiro e do ferro elétrico.'}
+ ],c:'k4'},
+
+{t:'A função do resistor em um chuveiro elétrico é:',
+ a:[
+  {id:'l1',x:'resistir à passagem da corrente e ampliar a perda de energia na forma de calor, aquecendo a água.',e:'Correto. É o resistor que esquenta a água que passa por ele.'},
+  {id:'l2',x:'impedir totalmente a passagem de corrente.',e:'Ele não impede a corrente; ele resiste e gera calor.'},
+  {id:'l3',x:'transformar a água em eletricidade.',e:'Não há transformação de água em eletricidade.'},
+  {id:'l4',x:'medir a tensão da rede elétrica.',e:'Medir tensão é função de um voltímetro, não do resistor.'}
+ ],c:'l1'},
+
+{t:'Entre os tipos de lâmpada estudados, a mais eficiente e durável é a:',
+ a:[
+  {id:'m1',x:'incandescente, por causa do filamento de tungstênio.',e:'A incandescente desperdiça muita energia como calor — é a menos eficiente.'},
+  {id:'m2',x:'fluorescente, porque não contém mercúrio.',e:'A fluorescente é melhor que a incandescente, mas contém mercúrio e é menos eficiente que o LED.'},
+  {id:'m3',x:'de LED, que converte a maior parte da energia em luz, dura muito e não contém mercúrio.',e:'Correto. O LED usa material semicondutor e é a opção mais econômica e segura.'},
+  {id:'m4',x:'incandescente, por ser a mais moderna.',e:'A incandescente é a mais antiga e menos eficiente, não a mais moderna.'}
+ ],c:'m3'},
+
+{t:'A grandeza que mede a rapidez com que um aparelho transforma energia elétrica em outras formas é a potência, medida em:',
+ a:[
+  {id:'n1',x:'ampère (A).',e:'Ampère mede a corrente, não a potência.'},
+  {id:'n2',x:'watt (W).',e:'Correto. A potência elétrica é medida em watt (W).'},
+  {id:'n3',x:'ohm (Ω).',e:'Ohm mede a resistência elétrica.'},
+  {id:'n4',x:'volt (V).',e:'Volt mede a tensão (diferença de potencial).'}
+ ],c:'n2'},
+
+{t:'Sobre o consumo de energia elétrica, é CORRETO afirmar que:',
+ a:[
+  {id:'o1',x:'é calculado apenas pela potência, sem considerar o tempo.',e:'O tempo é essencial: consumo = potência × tempo.'},
+  {id:'o2',x:'é medido em watt (W).',e:'Watt mede potência. O consumo é medido em watt-hora (Wh) ou quilowatt-hora (kWh).'},
+  {id:'o3',x:'1 kWh é igual a 100 Wh.',e:'Errado: 1 kWh = 1 000 Wh.'},
+  {id:'o4',x:'é dado por consumo = potência × tempo, e 1 kWh = 1 000 Wh.',e:'Correto. Multiplica-se a potência (em kW) pelo tempo (em h) para obter o consumo em kWh.'}
+ ],c:'o4'}
+];
+
+var LETRAS=['A','B','C','D'];
+
+function carregar(){
+  var raw=LS.get(CHAVE); if(!raw)return;
+  try{var d=JSON.parse(raw);
+    estado.resp=d.resp||{};estado.fim=!!d.fim;estado.cod=d.cod||null;
+    estado.acertos=d.acertos||0;estado.gab=!!d.gab;estado.quando=d.quando||null;
+  }catch(e){}
+}
+function salvar(){estado.quando=new Date().toISOString();LS.set(CHAVE,JSON.stringify(estado));mostrarSalvo();}
+function mostrarSalvo(){
+  var el=document.getElementById('saveInfo');
+  if(!estado.quando){el.textContent='Nada salvo ainda.';return;}
+  var d=new Date(estado.quando),p=function(n){return n<10?'0'+n:''+n;};
+  el.textContent='Último salvamento: '+p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' às '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function render(){
+  var h='';
+  for(var i=0;i<Q.length;i++){
+    var q=Q[i];
+    h+='<div class="q'+(estado.gab?' gab':'')+'" id="q'+i+'">';
+    h+='<div class="head"><span class="num">'+(i+1)+'</span><span class="txt">'+q.t+'</span></div>';
+    h+='<div class="alts">';
+    for(var j=0;j<q.a.length;j++){
+      var al=q.a[j],cls='alt';
+      if(estado.resp['q'+i]===al.id)cls+=' sel';
+      if(estado.gab){cls=(al.id===q.c)?'alt certa':'alt errada';}
+      h+='<div class="'+cls+'" onclick="escolher('+i+',\''+al.id+'\')">'+
+         '<span class="let">'+LETRAS[j]+'</span><span style="flex:1">'+al.x+
+         '<span class="expl">'+al.e+'</span></span>'+
+         '<span class="selo">'+(al.id===q.c?'certa':'errada')+'</span></div>';
+    }
+    h+='</div></div>';
+  }
+  document.getElementById('quiz').innerHTML=h;
+  atualizar();
+}
+function escolher(i,id){
+  if(estado.gab||estado.fim)return;
+  estado.resp['q'+i]=id;salvar();render();
+}
+function atualizar(){
+  var n=0;
+  for(var i=0;i<Q.length;i++){if(estado.resp['q'+i])n++;}
+  document.getElementById('pbar').style.width=(n/Q.length*100)+'%';
+  document.getElementById('plbl').textContent=n+' de '+Q.length+' respondidas';
+  var b=document.getElementById('btnFim');
+  b.disabled=(n<Q.length)||estado.fim;
+  document.getElementById('fimHint').textContent=estado.fim?'Rodada já finalizada. Use "Refazer o quiz" para tentar de novo.':(n<Q.length?'Responda as '+Q.length+' questões para liberar.':'Tudo respondido! Pode finalizar. 🏁');
+  if(estado.fim)mostrarResultado();
+}
+function letras2(){
+  var L='ABCDEFGHJKLMNPQRSTUVWXYZ';
+  return L.charAt(Math.floor(Math.random()*L.length))+L.charAt(Math.floor(Math.random()*L.length));
+}
+function finalizar(){
+  var ac=0;
+  for(var i=0;i<Q.length;i++){if(estado.resp['q'+i]===Q[i].c)ac++;}
+  estado.acertos=ac;estado.fim=true;
+  if(!estado.cod){estado.cod='MED-'+(ac<10?'0'+ac:''+ac)+'-'+letras2();}
+  salvar();render();
+  document.getElementById('unlock').classList.remove('hidden');
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function mostrarResultado(){
+  document.getElementById('result').classList.add('show');
+  document.getElementById('unlock').classList.remove('hidden');
+  document.getElementById('score').textContent=estado.acertos+' / '+Q.length;
+  document.getElementById('cod').textContent=estado.cod||'—';
+  var m,a=estado.acertos;
+  if(a>=13)m='🏆 Central sob controle! Você está pronto para o simulado.';
+  else if(a>=10)m='💪 Bom domínio! Revise o Resumo nos pontos que escaparam.';
+  else if(a>=7)m='🧭 No caminho certo. Volte na Leitura Guiada dos setores que ficaram confusos.';
+  else m='📌 Calma: reveja a Leitura Guiada e o Resumo e refaça o quiz. Dá tempo!';
+  document.getElementById('msg').textContent=m;
+}
+function liberar(){
+  var v=(document.getElementById('codIn').value||'').trim().toUpperCase();
+  var el=document.getElementById('unlockMsg');
+  if(!estado.cod){el.innerHTML='<span style="color:var(--red)">Nenhum código foi gerado ainda — finalize o quiz primeiro.</span>';return;}
+  if(v===estado.cod){
+    estado.gab=true;salvar();render();
+    el.innerHTML='<span style="color:var(--green)">✅ Gabarito comentado liberado! Role a página para ver.</span>';
+  }else{
+    el.innerHTML='<span style="color:var(--red)">❌ Código incorreto. Confira as letras e os números.</span>';
+  }
+}
+function refazer(){
+  estado.resp={};estado.fim=false;estado.cod=null;estado.acertos=0;estado.gab=false;
+  salvar();
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('unlock').classList.add('hidden');
+  document.getElementById('unlockMsg').textContent='';
+  document.getElementById('codIn').value='';
+  render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function abrir(id){document.getElementById(id).classList.add('show');}
+function fechar(id){document.getElementById(id).classList.remove('show');}
+function aviso(t,x){document.getElementById('avTtl').textContent=t;document.getElementById('avTxt').textContent=x;abrir('mAviso');}
+function abrirZerar(){abrir('mZerar');}
+function abrirImport(){document.getElementById('impTxt').value='';abrir('mImport');}
+function zerarTudo(){
+  LS.del(CHAVE);
+  estado={resp:{},fim:false,cod:null,acertos:0,gab:false,quando:null};
+  fechar('mZerar');mostrarSalvo();
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('unlock').classList.add('hidden');
+  render();
+}
+function exportar(){document.getElementById('expTxt').value=JSON.stringify(estado);abrir('mExport');var t=document.getElementById('expTxt');t.focus();t.select();}
+function importar(){
+  try{
+    var d=JSON.parse(document.getElementById('impTxt').value.trim());
+    estado.resp=d.resp||{};estado.fim=!!d.fim;estado.cod=d.cod||null;
+    estado.acertos=d.acertos||0;estado.gab=!!d.gab;
+    salvar();fechar('mImport');render();
+    aviso('Tudo certo!','Respostas importadas com sucesso.');
+  }catch(e){fechar('mImport');aviso('Não deu certo','O texto colado não parece válido. Copie de novo, inteirinho.');}
+}
+carregar();mostrarSalvo();render();
+</script>
+</body>
+</html>
